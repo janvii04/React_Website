@@ -8,6 +8,7 @@ const Dashboard = () => {
     <div>
       <Navbar />
       <Banner />
+      
       <Footer />
     </div>
   );

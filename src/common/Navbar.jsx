@@ -24,11 +24,13 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="auth-buttons">
-            <div className="SignUpButton">
-              <h4>Sign Up</h4>
-            </div>
-            <div className="LoginButton">
-              <h4>Login</h4>
+            <div className="signup-button">
+              <button>Sign Up</button>
+              </div>
+            <div className="login-button">
+              <button>
+                <a href="#">Login</a>
+              </button>
             </div>
           </div>
         </div>

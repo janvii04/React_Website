@@ -31,8 +31,57 @@ li a {
 
 .auth-buttons {
   display: flex;
-  gap: 50px;
+  gap: 30px;
 }
+.login-button button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background 0.3s ease;
+}
+
+.login-button button:hover {
+  background-color: #333;
+}
+
+.login-button button a {
+  color: inherit; /* Inherit the color from the button */
+  text-decoration: none; /* Remove underline */
+}
+
+.login-button button:hover a {
+  color: inherit; /* Keep the color the same on hover */
+}
+
+
+.signup-button button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background 0.3s ease;
+}
+
+.signup-button button:hover {
+  background-color: #333;
+}
+
+.signup-button button a {
+  color: inherit;
+  text-decoration: none; 
+}
+
+.signup-button button:hover a {
+  color: inherit; 
+}
+
 
 ul {
   margin-left: 7%;
