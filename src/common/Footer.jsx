@@ -1,57 +1,76 @@
-// import React from 'react'
+
+
+// import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="footer">
-        <div className="container top-section">
-          <div className="logo-nav">
-            <span className="logoo">Dribbble</span>
-            <nav className="nav-links">
-              <a href="#">For designers</a>
-              <a href="#">Hire talent</a>
-              <a href="#">Inspiration</a>
-              <a href="#">Advertising</a>
-              <a href="#">Blog</a>
-              <a href="#">About</a>
-              <a href="#">Careers</a>
-              <a href="#">Support</a>
-            </nav>
+    <footer className="bg-white text-dark py-4">
+      <div className="container">
+        {/* Top Section */}
+        <div className="row mb-4">
+          <div className="col-md-6">
+            <h4 className="fw-bold">Dribbble</h4>
+          </div>
+          <div className="col-md-6 d-flex flex-wrap justify-content-md-end gap-3">
+            <Link to="#" className="text-dark text-decoration-none">For designers</Link>
+            <Link to="#" className="text-dark text-decoration-none">Hire talent</Link>
+            <Link to="#" className="text-dark text-decoration-none">Inspiration</Link>
+            <Link to="#" className="text-dark text-decoration-none">Advertising</Link>
+            <Link to="#" className="text-dark text-decoration-none">Blog</Link>
+            <Link to="#" className="text-dark text-decoration-none">About</Link>
+            <Link to="#" className="text-dark text-decoration-none">Careers</Link>
+            <Link to="#" className="text-dark text-decoration-none">Support</Link>
           </div>
         </div>
 
-        <div className="container bottom-section">
-          <div className="extra-links">
-            <a href="#">Jobs</a>
-            <a href="#">Designers</a>
-            <a href="#">Freelancers</a>
-            <a href="#">Tags</a>
-            <a href="#">Places</a>
-            <a href="#">Resources</a>
+        {/* Bottom Section */}
+        <div className="row border-top pt-3">
+          {/* Extra Links */}
+          <div className="col-md-4">
+            <h6 className="text-muted">Explore</h6>
+            <div className="d-flex flex-wrap gap-2">
+              <Link to="#" className="text-dark text-decoration-none">Jobs</Link>
+              <Link to="#" className="text-dark text-decoration-none">Designers</Link>
+              <Link to="#" className="text-dark text-decoration-none">Freelancers</Link>
+              <Link to="#" className="text-dark text-decoration-none">Tags</Link>
+              <Link to="#" className="text-dark text-decoration-none">Places</Link>
+              <Link to="#" className="text-dark text-decoration-none">Resources</Link>
+            </div>
           </div>
-          <div className="legal-links">
-            <a href="#">© 2025 Dribbble</a>
-            <a href="#">Terms</a>
-            <a href="#">Privacy</a>
-            <a href="#">Cookies</a>
+
+          {/* Legal Links */}
+          <div className="col-md-4 text-center">
+            <h6 className="text-muted">Legal</h6>
+            <div className="d-flex flex-column">
+              <Link to="#" className="text-dark text-decoration-none">© 2025 Dribbble</Link>
+              <Link to="#" className="text-dark text-decoration-none">Terms</Link>
+              <Link to="#" className="text-dark text-decoration-none">Privacy</Link>
+              <Link to="#" className="text-dark text-decoration-none">Cookies</Link>
+            </div>
           </div>
-          <div className="social-links">
-            <a href="#">
-              <i className="fab fa-twitter"></i>{" "}
-            </a>
-            <a href="#">
-              <i className="fab fa-facebook"></i>{" "}
-            </a>
-            <a href="#">
-              <i className="fab fa-instagram"></i>{" "}
-            </a>
-            <a href="#">
-              <i className="fab fa-pinterest"></i>
-            </a>
+
+          {/* Social Links */}
+          <div className="col-md-4 text-md-end text-center">
+            <h6 className="text-muted">Follow Us</h6>
+            <div className="d-flex justify-content-md-end justify-content-center gap-3">
+              <Link to="#" className="text-dark fs-4">
+                <i className="fab fa-twitter"></i>
+              </Link>
+              <Link to="#" className="text-dark fs-4">
+                <i className="fab fa-facebook"></i>
+              </Link>
+              <Link to="#" className="text-dark fs-4">
+                <i className="fab fa-instagram"></i>
+              </Link>
+              <Link to="#" className="text-dark fs-4">
+                <i className="fab fa-pinterest"></i>
+              </Link>
+            </div>
           </div>
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 };
 

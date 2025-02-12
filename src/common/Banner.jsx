@@ -1,50 +1,58 @@
-// import React from 'react'
-import "/Style.css";
-// import Navbar from "./Navbar";
+
+// import React from "react";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
-    <div>
-      {/* <Navbar/> */}
-      <section id="hero" className="d-flex align-items-center">
-        <div className="container text-center">
-          <br />
-          
-          <h1>
-            Discover the world’s
-            <br /> top designers
-          </h1>
-          
-          <h6>
-            Explore work from the most talented and accomplished designers
-            <br />
-            ready to take on your next project
-          </h6>
+    <section id="hero" className="d-flex align-items-center py-5 bg-white">
+      <div className="container text-center">
+        <br />
+        <h1 className="display-4 fw-bold">
+          Discover the worlds <br /> top designers
+        </h1>
+        <p className="lead text-muted">
+          Explore work from the most talented and accomplished designers <br />
+          ready to take on your next project.
+        </p>
+
+        {/* Search Bar */}
+        <div className="d-flex justify-content-center mt-4">
+          <div className="input-group w-50">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="What are you looking for?"
+            />
+            <button className="btn btn fw-bold bg-danger text-white">Search</button>
+          </div>
         </div>
-        <div className="search-bar">
-          <input type="text" placeholder="What are u looking for?" />
-          <button>Search</button>
+
+        {/* Trending Searches */}
+        <div className="mt-4">
+          <h5 className="text-muted">Trending searches:</h5>
+          <ul className="list-inline">
+            <li className="list-inline-item">
+              <Link to="#" className=" btn  text-decoration-none">Landing Page</Link>
+            </li>
+            <li className="list-inline-item">
+              <Link to="#" className=" btn  text-decoration-none">E-commerce</Link>
+            </li>
+            <li className="list-inline-item">
+              <Link to="#" className=" btn text-decoration-none">Mobile App</Link>
+            </li>
+            <li className="list-inline-item">
+              <Link to="#" className="btn text-decoration-none">Logo Design</Link>
+            </li>
+            <li className="list-inline-item">
+              <Link to="#" className="btn text-decoration-none">Dashboard</Link>
+            </li>
+            <li className="list-inline-item">
+              <Link to="#" className="btn text-decoration-none">Icons</Link>
+            </li>
+          </ul>
         </div>
-        
-        <ul>
-          <li>
-            <a href="#">Trending searches</a>
-          </li>
-          <li>
-            <a href="#">landing page</a>
-          </li>
-          <li>
-            <a href="#">e-commerce</a>
-          </li>
-          <li>
-            <a href="#">mobile app</a>
-            <a href="#">logo design</a>
-            <a href="#"> dashboard</a>
-            <a href="#">icons</a>
-          </li>
-        </ul>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
