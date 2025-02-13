@@ -1,5 +1,5 @@
 // import React from 'react'
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 
 import Navbar from "../../common/Navbar";
 import Banner from "../../common/Banner";
@@ -8,41 +8,50 @@ import Card from "../../components/cards/Card";
 import { Link } from "react-router-dom";
 
 const categories = [
-  [
-    // { name: "Mobile", image: "/1st.webp" },
+  
     { name: "Print", image: "/img1.webp" },
     { name: "Typography", image: "/img2.webp" },
     { name: "Product Design", image: "/img3.webp" },
-  ],
-  [
-    // { name: "Web Design", image: "/1st.webp" },
-    { name: "Illustration", image: "/img2.webp" },
-    { name: "Branding", image: "/img1.webp" },
-    { name: "Animation", image: "/img3.webp" },
-  ],
-];
+    { name: "Typography", image: "/img2.webp" },
+
+
+  ]
+ 
+const getInfiniteItems =(arr)=> [...arr,...arr];
+
 
 const Dashboard = () => {
   const [showFilters, setShowFilters] = useState({});
-  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-slide every 3 seconds (moving from right to left)
+
+  const [pause, setPause] = useState(false);
+  const [manualControl, setManualControl] = useState(false);
+  const trackRef = useRef(null);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 3000);
+    if (trackRef.current) {
+      if (pause || manualControl) {
+        trackRef.current.style.animationPlayState = "paused";
+      } else {
+        trackRef.current.style.animationPlayState = "running";
+      }
+    }
+  }, [pause, manualControl]);
 
-    return () => clearInterval(interval); // Cleanup interval
-  }, []);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % categories.length);
+  const scrollLeft = () => {
+    if (trackRef.current) {
+      setManualControl(true);
+      trackRef.current.scrollLeft -= 250;
+      setTimeout(() => setManualControl(false), 5000);
+    }
   };
 
-  const prevSlide = () => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + categories.length) % categories.length
-    );
+  const scrollRight = () => {
+    if (trackRef.current) {
+      setManualControl(true);
+      trackRef.current.scrollLeft += 250;
+      setTimeout(() => setManualControl(false), 5000);
+    }
   };
 
   return (
@@ -137,7 +146,38 @@ const Dashboard = () => {
       )}
 
       <Card />
-      {/* Custom Carousel (Sliding from Right to Left) */}
+      <div className="container mt-4">
+        <h3 className="text-center mb-3">Featured Categories</h3>
+
+        <div
+          className="carousel-container"
+          onMouseEnter={() => setPause(true)}
+          onMouseLeave={() => setPause(false)}
+        >
+          <button className="carousel-btn left" onClick={scrollLeft}>
+            ❮
+          </button>
+
+          <div className="carousel-track" ref={trackRef}>
+            {getInfiniteItems(categories).map((category, idx) => (
+              <div key={idx} className="carousel-slide">
+                <img
+                  src={category.image}
+                  className="img-fluid rounded"
+                  alt={category.name}
+                />
+                <p className="fw-bold mt-2">{category.name}</p>
+              </div>
+            ))}
+          </div>
+
+          <button className="carousel-btn right" onClick={scrollRight}>
+            ❯
+          </button>
+        </div>
+      </div>
+
+      {/* Custom Carousel (Sliding from Right to Left)
       <div className="container mt-4">
         <h3 className="text-center mb-3">Featured Categories</h3>
 
@@ -165,32 +205,48 @@ const Dashboard = () => {
           </div>
 
           {/* Carousel Controls */}
-          <button className="carousel-btn left" onClick={prevSlide}>
+         {/* <button className="carousel-btn left" onClick={prevSlide}>
             ❮
           </button>
           <button className="carousel-btn right" onClick={nextSlide}>
             ❯
           </button>
         </div>
-      </div>
+      </div> */}
 
       <Footer />
       {/* Styles for Custom Carousel */}
+      {/* Styles */}
       <style>
         {`
           .carousel-container {
             position: relative;
             overflow: hidden;
             width: 100%;
+            white-space: nowrap;
+            padding: 10px 0;
           }
+
           .carousel-track {
             display: flex;
-            transition: transform 1s ease-in-out;
+            gap: 20px;
+            width: max-content;
+            animation: scroll 10s linear infinite;
+            overflow-x: auto;
+            scroll-behavior: smooth;
           }
+
           .carousel-slide {
-            min-width: 100%;
-            box-sizing: border-box;
+            flex: 0 0 auto;
+            width: 200px;
+            text-align: center;
           }
+
+          @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+
           .carousel-btn {
             position: absolute;
             top: 50%;
@@ -202,18 +258,24 @@ const Dashboard = () => {
             cursor: pointer;
             font-size: 20px;
             border-radius: 50%;
+            z-index: 10;
           }
+
           .carousel-btn.left {
             left: 10px;
           }
+
           .carousel-btn.right {
             right: 10px;
           }
+
           .carousel-btn:hover {
             background: rgba(0, 0, 0, 0.8);
           }
         `}
       </style>
+
+        
     </div>
   );
 };
