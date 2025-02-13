@@ -50,6 +50,10 @@ const Banner = () => {
               <Link to="#" className="btn text-decoration-none">Icons</Link>
             </li>
           </ul>
+          <div className="button">
+          <div className="text-muted">Trending searches:</div>
+
+          </div>
         </div>
       </div>
     </section>
