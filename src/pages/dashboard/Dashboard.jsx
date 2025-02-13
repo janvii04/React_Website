@@ -12,8 +12,10 @@ const categories = [
     { name: "Print", image: "/img1.webp" },
     { name: "Typography", image: "/img2.webp" },
     { name: "Product Design", image: "/img3.webp" },
-    { name: "Typography", image: "/img2.webp" },
-
+    { name: "Typography", image: "/img4.webp" },
+    { name: "Ramotion", image: "/img5.webp" },
+    { name: "Emote ", image: "/img6.webp" },
+    { name: "Muti", image: "/img7.webp" },
 
   ]
  
@@ -22,12 +24,11 @@ const getInfiniteItems =(arr)=> [...arr,...arr];
 
 const Dashboard = () => {
   const [showFilters, setShowFilters] = useState({});
-
+const[color,setColor]=useState("#000000")
 
   const [pause, setPause] = useState(false);
-  const [manualControl, setManualControl] = useState(false);
+  const [manualControl] = useState(false);
   const trackRef = useRef(null);
-
   useEffect(() => {
     if (trackRef.current) {
       if (pause || manualControl) {
@@ -38,21 +39,6 @@ const Dashboard = () => {
     }
   }, [pause, manualControl]);
 
-  const scrollLeft = () => {
-    if (trackRef.current) {
-      setManualControl(true);
-      trackRef.current.scrollLeft -= 250;
-      setTimeout(() => setManualControl(false), 5000);
-    }
-  };
-
-  const scrollRight = () => {
-    if (trackRef.current) {
-      setManualControl(true);
-      trackRef.current.scrollLeft += 250;
-      setTimeout(() => setManualControl(false), 5000);
-    }
-  };
 
   return (
     <div>
@@ -121,16 +107,50 @@ const Dashboard = () => {
           </div>
 
           {/* Color Filter */}
-          <div className="filter-option w-100">
+          {/* <div className="filter-option w-100">
             <label className="form-label fw-bold ">Color</label>
             <div className="position-relative">
               <input
                 type="color"
                 className="form-control form-control-color  w-100"
-                style={{ height: "38px", padding: "5px" }} // Match height & padding with other inputs
+                style={{ height: "38px", padding: "5px" }}
+                
+              />
+            </div>
+          </div> */}
+
+<div className="filter-option w-100">
+            <label className="form-label fw-bold">Color</label>
+            <div className="position-relative">
+              {/* Text Input for Hex Code */}
+              <input
+                type="text"
+                className="form-control w-100"
+                // placeholder="Enter hex or select color"
+                value={color} // Show selected color hex
+                readOnly // Prevent manual typing
+              />
+
+              {/* Color Picker */}
+              <input
+                type="color"
+                className="position-absolute"
+                style={{
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: "40px",
+                  height: "100%",
+                  border: "none",
+                  cursor: "pointer",
+                  background: "transparent",
+                }}
+                value={color}
+                onChange={(e) => setColor(e.target.value)} // Update hex value on color change
               />
             </div>
           </div>
+
 
           {/* Timeframe Filter */}
           <div className="filter-option w-100">
@@ -146,6 +166,18 @@ const Dashboard = () => {
       )}
 
       <Card />
+      <br/>
+      <br/>
+      <br/>
+      <div className="d-flex justify-content-center align-items-center vh-90">
+        <div className="btn-btn">
+          <button className="px-4 py-2 rounded-pill text-white bg-dark border-none">
+            Sign Up to Continue
+          </button>
+        </div>
+      </div>
+      <br/>
+      <br/>
       <div className="container mt-4">
         <h3 className="text-center mb-3">Featured Categories</h3>
 
@@ -154,9 +186,7 @@ const Dashboard = () => {
           onMouseEnter={() => setPause(true)}
           onMouseLeave={() => setPause(false)}
         >
-          <button className="carousel-btn left" onClick={scrollLeft}>
-            ❮
-          </button>
+
 
           <div className="carousel-track" ref={trackRef}>
             {getInfiniteItems(categories).map((category, idx) => (
@@ -171,9 +201,6 @@ const Dashboard = () => {
             ))}
           </div>
 
-          <button className="carousel-btn right" onClick={scrollRight}>
-            ❯
-          </button>
         </div>
       </div>
 

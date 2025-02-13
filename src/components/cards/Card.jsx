@@ -577,11 +577,11 @@ const cardsData = [
   { id: 9, type: "image", src: "img9.webp", text: "Wix Studio", views: "11.6k", likes: 198 },
   { id: 10, type: "image", src: "img10.webp", text: "Top Rated", views: "14.5k", likes: 256 },
   { id: 11, type: "image", src: "img11.webp", text: "Editor's Pick", views: "13.7k", likes: 178 },
-  { id: 12, type: "image", src: "img12.webp", text: "User Favorite", views: "16.2k", likes: 312 },
-  { id: 12, type: "image", src: "img13.webp", text: "User Favorite", views: "16.2k", likes: 312 },
-  { id: 12, type: "image", src: "img14.webp", text: "User Favorite", views: "16.2k", likes: 312 },
-  { id: 12, type: "image", src: "img15.webp", text: "User Favorite", views: "16.2k", likes: 312 },
-  { id: 12, type: "image", src: "img16.webp", text: "User Favorite", views: "16.2k", likes: 312 }
+  { id: 12, type: "image", src: "img12.webp", text: "Modall", views: "16.2k", likes: 312 },
+  { id: 13, type: "image", src: "img13.webp", text: "User Favorite", views: "33.2k", likes: 200 },
+  { id: 14, type: "image", src: "img14.webp", text: "Roohi Khooi", views: "13.2k", likes: 300 },
+  { id: 15, type: "image", src: "img15.webp", text: "Detail Studio", views: "19.2k", likes: 319 },
+  { id: 16, type: "image", src: "img16.webp", text: "heatbeat", views: "9.2k", likes: 34 }
 
 
 
