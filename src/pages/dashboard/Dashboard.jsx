@@ -100,16 +100,16 @@ const Dashboard = () => {
         </nav>
         {/* Filters Button */}
         <button
-          className="btn btn-outline-secondary"
+          className="btn btn-outline-secondary custom-filter-btn"
           onClick={() => setShowFilters(!showFilters)}
         >
-          <i className="bi bi-funnel"></i> Filters
+          <i className="fa-solid fa-sliders"></i> Filters
         </button>
       </div>
 
       {/* Filter Options (Side by Side with Equal Size) */}
       {showFilters && (
-        <div className="filter-container d-flex gap-3 p-3 mt-2 bg-light rounded shadow-sm">
+        <div className="filter-container d-flex gap-3 p-3 mt-2 bg-white rounded shadow-sm">
           {/* Tags Filter */}
           <div className="filter-option w-100">
             <label className="form-label fw-bold">Tags</label>
@@ -122,11 +122,11 @@ const Dashboard = () => {
 
           {/* Color Filter */}
           <div className="filter-option w-100">
-            <label className="form-label fw-bold">Color</label>
+            <label className="form-label fw-bold ">Color</label>
             <div className="position-relative">
               <input
                 type="color"
-                className="form-control form-control-color w-100"
+                className="form-control form-control-color  w-100"
                 style={{ height: "38px", padding: "5px" }} // Match height & padding with other inputs
               />
             </div>
@@ -177,48 +177,18 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Custom Carousel (Sliding from Right to Left)
-      <div className="container mt-4">
-        <h3 className="text-center mb-3">Featured Categories</h3>
-
-        <div className="carousel-container">
-          <div
-            className="carousel-track"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {categories.map((group, index) => (
-              <div key={index} className="carousel-slide">
-                <div className="row">
-                  {group.map((category, idx) => (
-                    <div key={idx} className="col-md-3 text-center">
-                      <img
-                        src={category.image}
-                        className="img-fluid rounded"
-                        alt={category.name}
-                      />
-                      <p className="fw-bold mt-2">{category.name}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Carousel Controls */}
-         {/* <button className="carousel-btn left" onClick={prevSlide}>
-            ❮
-          </button>
-          <button className="carousel-btn right" onClick={nextSlide}>
-            ❯
-          </button>
-        </div>
-      </div> */}
+     
 
       <Footer />
-      {/* Styles for Custom Carousel */}
-      {/* Styles */}
+      
       <style>
         {`
+          .custom-filter-btn:hover{
+          background-color:transparent !important;
+          border-color: inherit !important;
+          color:inherit !important;
+          }
+
           .carousel-container {
             position: relative;
             overflow: hidden;
