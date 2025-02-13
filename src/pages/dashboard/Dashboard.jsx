@@ -1,5 +1,5 @@
 // import React from 'react'
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Navbar from "../../common/Navbar";
 import Banner from "../../common/Banner";
@@ -8,27 +8,33 @@ import Card from "../../components/cards/Card";
 import { Link } from "react-router-dom";
 
 const categories = [
-  
-    { name: "Print", image: "/img1.webp" },
-    { name: "Typography", image: "/img2.webp" },
-    { name: "Product Design", image: "/img3.webp" },
-    { name: "Typography", image: "/img4.webp" },
-    { name: "Ramotion", image: "/img5.webp" },
-    { name: "Emote ", image: "/img6.webp" },
-    { name: "Muti", image: "/img7.webp" },
+  { name: "Print", image: "/img1.webp" },
+  { name: "Typography", image: "/img2.webp" },
+  { name: "Product Design", image: "/img3.webp" },
+  { name: "Typography", image: "/img4.webp" },
+  { name: "Ramotion", image: "/img5.webp" },
+  { name: "Emote ", image: "/img6.webp" },
+  { name: "Muti", image: "/img7.webp" },
+];
 
-  ]
- 
-const getInfiniteItems =(arr)=> [...arr,...arr];
-
+const getInfiniteItems = (arr) => [...arr, ...arr];
 
 const Dashboard = () => {
   const [showFilters, setShowFilters] = useState({});
-const[color,setColor]=useState("#000000")
-
+  const [color, setColor] = useState("#000000");
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const [pause, setPause] = useState(false);
   const [manualControl] = useState(false);
   const trackRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollButton(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   useEffect(() => {
     if (trackRef.current) {
       if (pause || manualControl) {
@@ -38,8 +44,9 @@ const[color,setColor]=useState("#000000")
       }
     }
   }, [pause, manualControl]);
-
-
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <div>
       <Navbar />
@@ -99,27 +106,15 @@ const[color,setColor]=useState("#000000")
           {/* Tags Filter */}
           <div className="filter-option w-100">
             <label className="form-label fw-bold">Tags</label>
+
             <input
               type="text"
               className="form-control"
-              placeholder="Search tags..."
+              placeholder="🔍 Search tags..."
             />
           </div>
 
-          {/* Color Filter */}
-          {/* <div className="filter-option w-100">
-            <label className="form-label fw-bold ">Color</label>
-            <div className="position-relative">
-              <input
-                type="color"
-                className="form-control form-control-color  w-100"
-                style={{ height: "38px", padding: "5px" }}
-                
-              />
-            </div>
-          </div> */}
-
-<div className="filter-option w-100">
+          <div className="filter-option w-100">
             <label className="form-label fw-bold">Color</label>
             <div className="position-relative">
               {/* Text Input for Hex Code */}
@@ -151,7 +146,6 @@ const[color,setColor]=useState("#000000")
             </div>
           </div>
 
-
           {/* Timeframe Filter */}
           <div className="filter-option w-100">
             <label className="form-label fw-bold">Timeframe</label>
@@ -165,10 +159,16 @@ const[color,setColor]=useState("#000000")
         </div>
       )}
 
+      {showScrollButton && (
+        <button className="scroll-to-top" onClick={scrollToTop}>
+          ↑
+        </button>
+      )}
+
       <Card />
-      <br/>
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <br />
       <div className="d-flex justify-content-center align-items-center vh-90">
         <div className="btn-btn">
           <button className="px-4 py-2 rounded-pill text-white bg-dark border-none">
@@ -176,8 +176,8 @@ const[color,setColor]=useState("#000000")
           </button>
         </div>
       </div>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <div className="container mt-4">
         <h3 className="text-center mb-3">Featured Categories</h3>
 
@@ -186,8 +186,6 @@ const[color,setColor]=useState("#000000")
           onMouseEnter={() => setPause(true)}
           onMouseLeave={() => setPause(false)}
         >
-
-
           <div className="carousel-track" ref={trackRef}>
             {getInfiniteItems(categories).map((category, idx) => (
               <div key={idx} className="carousel-slide">
@@ -200,16 +198,28 @@ const[color,setColor]=useState("#000000")
               </div>
             ))}
           </div>
-
         </div>
       </div>
 
-     
-
       <Footer />
-      
+
       <style>
         {`
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: opacity 0.3s ease-in-out;
+          }
+
           .custom-filter-btn:hover{
           background-color:transparent !important;
           border-color: inherit !important;
@@ -271,8 +281,6 @@ const[color,setColor]=useState("#000000")
           }
         `}
       </style>
-
-        
     </div>
   );
 };
