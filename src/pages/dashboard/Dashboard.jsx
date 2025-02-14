@@ -27,22 +27,23 @@ const Dashboard = () => {
   const [manualControl] = useState(false);
   const trackRef = useRef(null);
 
+
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollButton(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  useEffect(() => {
+
     if (trackRef.current) {
-      if (pause || manualControl) {
-        trackRef.current.style.animationPlayState = "paused";
-      } else {
-        trackRef.current.style.animationPlayState = "running";
-      }
+      trackRef.current.style.animationPlayState =
+        pause || manualControl ? "paused" : "running";
     }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [pause, manualControl]);
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -154,11 +155,14 @@ const Dashboard = () => {
               <option>Past Week</option>
               <option>Past Month</option>
               <option>Past Year</option>
+              <option>All Time</option>
+
             </select>
           </div>
         </div>
-      )}
 
+      )}
+<br/>
       {showScrollButton && (
         <button className="scroll-to-top" onClick={scrollToTop}>
           ↑

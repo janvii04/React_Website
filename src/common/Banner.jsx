@@ -51,7 +51,6 @@ const Banner = () => {
             </li>
           </ul>
           <div className="button">
-          <div className="text-muted">Trending searches:</div>
 
           </div>
         </div>
