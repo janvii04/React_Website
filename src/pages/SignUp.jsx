@@ -3,17 +3,25 @@ import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
-    <div>
-      <div className="container-fluid vh-100 d-flex">
-        {/* Left Side - Image */}
-        <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center ">
-          <img
-            src="img17.gif"
-            alt="Background"
-            className="img17-fluid vh-100 w-100"
-            style={{ objectFit: "cover" }}
-          />
-        </div>
+    <div className="container-fluid vh-100 d-flex">
+    <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
+      {/* Text Overlay */}
+      <h1
+        className="position-absolute top-0 start-0 m-3 fst-italic"
+        style={{ fontFamily: "cursive", cursor: "pointer" }}
+        onClick={() => (window.location.href = "/")}
+      >
+        Dribbble
+      </h1>
+
+      {/* Background Image */}
+      <img
+        src="img17.gif"
+        alt="Background"
+        className="img-fluid vh-100 w-100"
+        style={{ objectFit: "cover" }}
+      />
+    </div>
 
         {/* Right Side - Login Form */}
         <div className="col-md-7 d-flex align-items-center justify-content-center">
@@ -56,7 +64,7 @@ const SignUp = () => {
         `}
         </style>
       </div>
-    </div>
+    // </div>
   );
 };
 

@@ -62,7 +62,7 @@ const Dashboard = () => {
         </div>
         <nav className="nav">
           <Link
-            className="btn btn-light text-black border-black px-3"
+            className="btn btn-light text-black custom-filter-btn "
             to="/discover"
           >
             Discover
@@ -152,9 +152,9 @@ const Dashboard = () => {
             <label className="form-label fw-bold">Timeframe</label>
             <select className="form-select">
               <option>Now</option>
-              <option>Past Week</option>
-              <option>Past Month</option>
-              <option>Past Year</option>
+              <option>This Past Week</option>
+              <option>This Past Month</option>
+              <option>This Past Year</option>
               <option>All Time</option>
 
             </select>

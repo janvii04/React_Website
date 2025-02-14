@@ -3,16 +3,36 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
+    // <div className="container-fluid vh-100 d-flex">
+    //   {/* Left Side - Image */}
+    //   <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center ">
+    //     <img
+    //       src="img0.jpg"
+    //       alt="Background"
+    //       className="img0-fluid vh-100 w-100"
+    //       style={{ objectFit: "cover" }}
+    //     />
+    //   </div>
     <div className="container-fluid vh-100 d-flex">
-      {/* Left Side - Image */}
-      <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center ">
+      <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
+        {/* Text Overlay */}
+        <h1
+          className="position-absolute top-0 start-0 m-3 fst-italic"
+          style={{ fontFamily: "cursive", cursor: "pointer" }}
+          onClick={() => (window.location.href = "/")}
+        >
+          Dribbble
+        </h1>
+
+        {/* Background Image */}
         <img
           src="img0.jpg"
           alt="Background"
-          className="img0-fluid vh-100 w-100"
+          className="img-fluid vh-100 w-100"
           style={{ objectFit: "cover" }}
         />
       </div>
+
 
       {/* Right Side - Login Form */}
       <div className="col-md-6 d-flex align-items-center justify-content-center">
@@ -77,3 +97,4 @@ const Login = () => {
 };
 
 export default Login;
+
