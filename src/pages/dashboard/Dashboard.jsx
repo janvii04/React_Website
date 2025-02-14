@@ -175,9 +175,11 @@ const Dashboard = () => {
       <br />
       <div className="d-flex justify-content-center align-items-center vh-90">
         <div className="btn-btn">
+          <Link to ="/SignUp">
           <button className="px-4 py-2 rounded-pill text-white bg-dark border-none">
             Sign Up to Continue
           </button>
+          </Link>
         </div>
       </div>
       <br />
