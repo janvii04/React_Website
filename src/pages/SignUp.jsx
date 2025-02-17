@@ -49,7 +49,7 @@ const SignUp = () => {
             </p>
 
             <p className="mt-3 text-center">
-              Dont have an account? <Link to="/Signup">Sign In</Link>
+              Dont have an account? <Link to="/SignIn">Sign In</Link>
             </p>
           </div>
         </div>
