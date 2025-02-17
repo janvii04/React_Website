@@ -20,14 +20,12 @@ const categories = [
 const getInfiniteItems = (arr) => [...arr, ...arr];
 
 const Dashboard = () => {
-  const [showFilters, setShowFilters] = useState({});
+  const [showFilters, setShowFilters] = useState(false);
   const [color, setColor] = useState("#000000");
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [pause, setPause] = useState(false);
   const [manualControl] = useState(false);
   const trackRef = useRef(null);
-
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -156,13 +154,11 @@ const Dashboard = () => {
               <option>This Past Month</option>
               <option>This Past Year</option>
               <option>All Time</option>
-
             </select>
           </div>
         </div>
-
       )}
-<br/>
+      <br />
       {showScrollButton && (
         <button className="scroll-to-top" onClick={scrollToTop}>
           ↑
@@ -175,10 +171,10 @@ const Dashboard = () => {
       <br />
       <div className="d-flex justify-content-center align-items-center vh-90">
         <div className="btn-btn">
-          <Link to ="/SignUp">
-          <button className="px-4 py-2 rounded-pill text-white bg-dark border-none">
-            Sign Up to Continue
-          </button>
+          <Link to="/SignUp">
+            <button className="px-4 py-2 rounded-pill text-white bg-dark border-none">
+              Sign Up to Continue
+            </button>
           </Link>
         </div>
       </div>
@@ -244,7 +240,7 @@ const Dashboard = () => {
             display: flex;
             gap: 20px;
             width: max-content;
-            animation: scroll 10s linear infinite;
+            animation: scroll 30s linear infinite;
             overflow-x: auto;
             scroll-behavior: smooth;
           }

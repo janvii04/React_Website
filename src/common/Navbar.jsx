@@ -1,82 +1,31 @@
 // // // import React from 'react'
 
-
-// import { Link } from "react-router-dom";
-
-// const Navbar = () => {
-//   return (
-//     <nav className="navbar navbar-expand-lg navbar-light bg-white">
-//       <div className="container">
-//         {/* Logo */}
-//         <Link className="navbar-brand fw-bold" to="#">
-//           Dribbble
-//         </Link>
-
-//         {/* Toggle Button for Mobile */}
-//         <button
-//           className="navbar-toggler"
-//           type="button"
-//           data-bs-toggle="collapse"
-//           data-bs-target="#navbarNav"
-//           aria-controls="navbarNav"
-//           aria-expanded="false"
-//           aria-label="Toggle navigation"
-//         >
-//           <span className="navbar-toggler-icon"></span>
-//         </button>
-
-//         {/* Navbar Links */}
-//         <div className="collapse navbar-collapse" id="navbarNav">
-//           <ul className="navbar-nav me-auto">
-//             <li className="nav-item">
-//               <Link className="nav-link " to="#">
-//                 Explore
-//               </Link>
-
-
-//             </li>
-//             <li className="nav-item">
-//               <Link className="nav-link" to="#">
-//                 Hire a Designer
-//               </Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link className="nav-link" to="#">
-//                 Find Jobs
-//               </Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link className="nav-link" to="#">
-//                 Blog
-//               </Link>
-//             </li>
-//           </ul>
-
-//           {/* Auth Buttons */}
-//           <div className="d-flex gap-2">
-//             <Link to="/SignUp" className="btn btn fw-bold">
-//               Sign Up
-//             </Link>
-//             <Link to="/Login" className="btn btn text-white bg-dark">
-//               Login
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;
-
-
-
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaUsers, FaFileAlt, FaBriefcase, FaHandshake } from "react-icons/fa";
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  const [showSearch, setShowSearch] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const searchBar = document.getElementById("hero"); // Get the banner section
+      if (!searchBar) return;
+
+      const searchBarBottom = searchBar.getBoundingClientRect().bottom;
+
+      // Show search if banner scrolls out of view
+      if (searchBarBottom <= 0) {
+        setShowSearch(true);
+      } else {
+        setShowSearch(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleMouseEnter = (dropdown) => {
     setOpenDropdown(dropdown);
@@ -97,6 +46,20 @@ const Navbar = () => {
           >
             Dribbble
           </Link>
+
+          {showSearch && (
+            <div className="navbar-search-container">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="What are you looking for?"
+              />
+              
+              <button className="btn rounded-circle search-btn">
+                <i className="fas fa-search text-white"></i>
+              </button>
+            </div>
+          )}
 
           {/* Toggle Button for Mobile */}
           <button
@@ -289,9 +252,62 @@ const Navbar = () => {
           }
         `}
       </style>
+      <style>
+        {`
+    .navbar-search-container {
+    width:100%;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      background: #F0F0F0;
+      color: black;
+      padding: 5px;
+      border-radius: 25px;
+    }
+    .navbar-search-container input {
+      border: none;
+      background: none;
+      outline: none;
+      padding: 5px;
+    }
+  `}
+      </style>
+
+      <style>
+        {`
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: white;
+    }
+
+  
+
+    .navbar-collapse {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .navbar-nav {
+      flex-grow: 1;
+      justify-content: left; 
+    }
+
+    .d-flex {
+      justify-content: flex-end;
+    }
+
+    / To prevent overlap with content /
+    body {
+      padding-top: 70px; / Adjust based on navbar height /
+    }
+  `}
+      </style>
     </>
   );
 };
 
 export default Navbar;
-

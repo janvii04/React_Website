@@ -8,7 +8,7 @@ const Banner = () => {
     <section id="hero" className="d-flex align-items-center text-center py-5 bg-white">
       <div className="container">
         <h1 className="display-1">
-          Discover the worlds
+          Discover the world&apos;s
           <br /> top designers
         </h1>
         <h6 className="mt-3">
