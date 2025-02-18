@@ -1,11 +1,11 @@
-
-
-
 import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
-    <section id="hero" className="d-flex align-items-center text-center py-5 bg-white">
+    <section
+      id="hero"
+      className="d-flex align-items-center text-center py-5 bg-white"
+    >
       <div className="container">
         <h1 className="display-1">
           Discover the world&apos;s
@@ -18,7 +18,11 @@ const Banner = () => {
         <div className="search-container mt-4 w-50 mx-auto">
           <div className="input-group position-relative">
             {/* Search Input */}
-            <input type="text" className="form-control border-0" placeholder="What are you looking for?" />
+            <input
+              type="text"
+              className="form-control border-0"
+              placeholder="What are you looking for?"
+            />
 
             {/* Dropdown */}
             <div className="dropdown">

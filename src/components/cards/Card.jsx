@@ -3,133 +3,133 @@ import { FaHeart, FaBookmark, FaEye } from "react-icons/fa";
 
 const cardsData = [
   {
-        id: 1,
-        type: "image",
-        src: "img1.webp",
-        text: "Ramotion",
-        views: "10.7k",
-        likes: 127,
-      },
-      {
-        id: 2,
-        type: "image",
-        src: "img2.webp",
-        text: "Emote",
-        views: "5.4k",
-        likes: 89,
-      },
-      {
-        id: 3,
-        type: "image",
-        src: "img3.webp",
-        text: "Muti",
-        views: "7.2k",
-        likes: 112,
-      },
-      {
-        id: 4,
-        type: "image",
-        src: "img4.webp",
-        text: "Recently updated",
-        views: "8.3k",
-        likes: 98,
-      },
-      {
-        id: 5,
-        type: "image",
-        src: "img5.webp",
-        text: "Trending now",
-        views: "12.1k",
-        likes: 145,
-      },
-      {
-        id: 6,
-        type: "image",
-        src: "img6.webp",
-        text: "Creative Design",
-        views: "15.2k",
-        likes: 210,
-      },
-      {
-        id: 7,
-        type: "image",
-        src: "img7.webp",
-        text: "Just added",
-        views: "6.8k",
-        likes: 76,
-      },
-      {
-        id: 8,
-        type: "image",
-        src: "img8.webp",
-        text: "New Release",
-        views: "9.4k",
-        likes: 134,
-      },
-      {
-        id: 9,
-        type: "image",
-        src: "img9.webp",
-        text: "Wix Studio",
-        views: "11.6k",
-        likes: 198,
-      },
-      {
-        id: 10,
-        type: "image",
-        src: "img10.webp",
-        text: "Top Rated",
-        views: "14.5k",
-        likes: 256,
-      },
-      {
-        id: 11,
-        type: "image",
-        src: "img11.webp",
-        text: "Editor's Pick",
-        views: "13.7k",
-        likes: 178,
-      },
-      {
-        id: 12,
-        type: "image",
-        src: "img12.webp",
-        text: "Modall",
-        views: "16.2k",
-        likes: 312,
-      },
-      {
-        id: 13,
-        type: "image",
-        src: "img13.webp",
-        text: "User Favorite",
-        views: "33.2k",
-        likes: 200,
-      },
-      {
-        id: 14,
-        type: "image",
-        src: "img14.webp",
-        text: "Roohi Khooi",
-        views: "13.2k",
-        likes: 300,
-      },
-      {
-        id: 15,
-        type: "image",
-        src: "img15.webp",
-        text: "Detail Studio",
-        views: "19.2k",
-        likes: 319,
-      },
-      {
-        id: 16,
-        type: "image",
-        src: "img16.webp",
-        text: "heatbeat",
-        views: "9.2k",
-        likes: 34,
-      },
+    id: 1,
+    type: "image",
+    src: "img1.webp",
+    text: "Ramotion",
+    views: "10.7k",
+    likes: 127,
+  },
+  {
+    id: 2,
+    type: "image",
+    src: "img2.webp",
+    text: "Emote",
+    views: "5.4k",
+    likes: 89,
+  },
+  {
+    id: 3,
+    type: "image",
+    src: "img3.webp",
+    text: "Muti",
+    views: "7.2k",
+    likes: 112,
+  },
+  {
+    id: 4,
+    type: "image",
+    src: "img4.webp",
+    text: "Recently updated",
+    views: "8.3k",
+    likes: 98,
+  },
+  {
+    id: 5,
+    type: "image",
+    src: "img5.webp",
+    text: "Trending now",
+    views: "12.1k",
+    likes: 145,
+  },
+  {
+    id: 6,
+    type: "image",
+    src: "img6.webp",
+    text: "Creative Design",
+    views: "15.2k",
+    likes: 210,
+  },
+  {
+    id: 7,
+    type: "image",
+    src: "img7.webp",
+    text: "Just added",
+    views: "6.8k",
+    likes: 76,
+  },
+  {
+    id: 8,
+    type: "image",
+    src: "img8.webp",
+    text: "New Release",
+    views: "9.4k",
+    likes: 134,
+  },
+  {
+    id: 9,
+    type: "image",
+    src: "img9.webp",
+    text: "Wix Studio",
+    views: "11.6k",
+    likes: 198,
+  },
+  {
+    id: 10,
+    type: "image",
+    src: "img10.webp",
+    text: "Top Rated",
+    views: "14.5k",
+    likes: 256,
+  },
+  {
+    id: 11,
+    type: "image",
+    src: "img11.webp",
+    text: "Editor's Pick",
+    views: "13.7k",
+    likes: 178,
+  },
+  {
+    id: 12,
+    type: "image",
+    src: "img12.webp",
+    text: "Modall",
+    views: "16.2k",
+    likes: 312,
+  },
+  {
+    id: 13,
+    type: "image",
+    src: "img13.webp",
+    text: "User Favorite",
+    views: "33.2k",
+    likes: 200,
+  },
+  {
+    id: 14,
+    type: "image",
+    src: "img14.webp",
+    text: "Roohi Khooi",
+    views: "13.2k",
+    likes: 300,
+  },
+  {
+    id: 15,
+    type: "image",
+    src: "img15.webp",
+    text: "Detail Studio",
+    views: "19.2k",
+    likes: 319,
+  },
+  {
+    id: 16,
+    type: "image",
+    src: "img16.webp",
+    text: "heatbeat",
+    views: "9.2k",
+    likes: 34,
+  },
 ];
 
 const Card = () => {
@@ -138,7 +138,7 @@ const Card = () => {
     Object.fromEntries(cardsData.map(({ id, likes }) => [id, likes]))
   );
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [selectedCard,setSelectedCard]=useState(null);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const toggleLike = (id) => {
     setLikedItems((prev) => ({
@@ -154,8 +154,6 @@ const Card = () => {
 
   return (
     <div className="container">
-
-      
       <div className="row row-cols-1 row-cols-md-4 g-4">
         {cardsData.map((card) => (
           <div
@@ -163,7 +161,7 @@ const Card = () => {
             className="col position-relative"
             onMouseEnter={() => setHoveredCard(card.id)}
             onMouseLeave={() => setHoveredCard(null)}
-            onClick={()=> setSelectedCard(card)}
+            onClick={() => setSelectedCard(card)}
           >
             <div className="card  border-0 rounded overflow-hidden">
               {/* {type === "video" ? (
@@ -173,12 +171,11 @@ const Card = () => {
                   controls
                 />
               ) : ( */}
-                <img
-                  src={card.src}
-                  className="w-100 h-100 object-contain"
-                  alt={`Card ${card.id}`}
-                />
-              
+              <img
+                src={card.src}
+                className="w-100 h-100 object-contain"
+                alt={`Card ${card.id}`}
+              />
 
               {/* Hover Options */}
               {hoveredCard === card.id && (
@@ -186,8 +183,12 @@ const Card = () => {
                   <div className="option-box">
                     <FaBookmark size={22} />
                   </div>
-                  <div className="option-box" onClick={(e) =>{e.stopPropagation(); toggleLike(card.id)}}
-                  
+                  <div
+                    className="option-box"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(card.id);
+                    }}
                   >
                     <FaHeart
                       className={likedItems[card.id] ? "text-danger" : ""}
@@ -287,8 +288,9 @@ const Card = () => {
           }
         `}
       </style>
-      {<style>
-        {`
+      {
+        <style>
+          {`
           .cursor-pointer { cursor: pointer; }
           .detail-view {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
@@ -305,7 +307,8 @@ const Card = () => {
             border-radius: 5px;
           }
         `}
-      </style>}
+        </style>
+      }
     </div>
   );
 };

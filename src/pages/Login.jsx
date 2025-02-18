@@ -1,6 +1,5 @@
 // // import React from "react";
 
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -34,8 +33,8 @@ const Login = () => {
             <div>
               <h2 className="mb-4 text-center">Forgot Password?</h2>
               <p className="text-center text-muted">
-                Enter the email address you used when you joined, and we’ll send you
-                instructions to reset your password.
+                Enter the email address you used when you joined, and we’ll send
+                you instructions to reset your password.
               </p>
               <form>
                 <div className="mb-3">
@@ -46,7 +45,10 @@ const Login = () => {
                     placeholder="Enter your email..."
                   />
                 </div>
-                <button type="submit" className="btn btn-dark w-100 custom-input">
+                <button
+                  type="submit"
+                  className="btn btn-dark w-100 custom-input"
+                >
                   Send Reset Instructions
                 </button>
               </form>
@@ -94,7 +96,10 @@ const Login = () => {
                     </button>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-dark w-100 custom-input">
+                <button
+                  type="submit"
+                  className="btn btn-dark w-100 custom-input"
+                >
                   Sign In
                 </button>
               </form>
@@ -128,7 +133,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-
-
