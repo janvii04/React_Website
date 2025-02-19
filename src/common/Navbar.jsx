@@ -22,7 +22,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("user");
 
     if (!token) {
       Swal.fire({
@@ -38,7 +38,7 @@ const Navbar = () => {
         { deviceToken: "abc" },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            authorization: `Bearer ${JSON.parse(token).token}`,
           },
         }
       );
