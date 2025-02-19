@@ -1,13 +1,71 @@
-// // // import React from 'react'
-
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import axios from "axios";
 import { FaUsers, FaFileAlt, FaBriefcase, FaHandshake } from "react-icons/fa";
+
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
-
   const [showSearch, setShowSearch] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.log("Error parsing user data from localStorage:", error);
+      }
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      Swal.fire({
+        icon: "error",
+        title: "Logout Failed",
+        text: "No user logged in.",
+      });
+      return;
+    }
+    try {
+      await axios.post(
+        "http://localhost:3001/users/logout",
+        { deviceToken: "abc" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Logout Failed",
+        text: error.response?.data?.message || "something went wrong!",
+      });
+      return;
+    }
+    localStorage.clear();
+
+    setUser(null);
+
+    Swal.fire({
+      icon: "success",
+      title: "Logged Out",
+      text: "You've logged out successfully!",
+      timer: 3001,
+      showConfirmButton: false,
+      toast: true,
+      position: "top-end",
+    });
+
+    setTimeout(() => navigate("/"), 3001);
+  };
   useEffect(() => {
     const handleScroll = () => {
       const searchBar = document.getElementById("hero"); // Get the banner section
@@ -225,12 +283,26 @@ const Navbar = () => {
 
             {/* Auth Buttons */}
             <div className="d-flex gap-2">
-              <Link to="/signup" className="btn fw-bold">
-                Sign Up
-              </Link>
-              <Link to="/login" className="btn text-white bg-dark">
-                Login
-              </Link>
+              {user ? (
+                <div className="user-container">
+                  <span className="user-name">{user.name}</span>
+                  <button
+                    className="logout_button px-4 py-2 rounded-lg"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link to="/signup" className="btn fw-bold">
+                    Sign Up
+                  </Link>
+                  <Link to="/login" className="btn text-white bg-dark">
+                    Login
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
