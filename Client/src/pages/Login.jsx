@@ -1,8 +1,7 @@
-// // import React from "react";
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "/Style.css";
 
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -11,22 +10,35 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/users/forgotPassword",
+        { email }
+      );
+      alert(response.data.message);
+      setIsForgotPassword(false);
+      setEmail("");
+    } catch (error) {
+      setError("Error sending reset link. Please try again.", error);
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
-
     try {
       const response = await axios.post("http://localhost:3001/users/login", {
         search: email,
         password,
       });
-
       localStorage.setItem("user", JSON.stringify(response.data.user));
       console.log("response", response);
-
       navigate("/");
     } catch (error) {
-      setError("Invalid fields", error);
+      setError("Invalid email or password.", error);
     }
   };
 
@@ -42,7 +54,7 @@ const Login = () => {
           Dribbble
         </h1>
         <img
-          src="img0.jpg"
+          src="img17.gif"
           alt="Background"
           className="img-fluid vh-100 w-100"
           style={{ objectFit: "cover" }}
@@ -57,16 +69,18 @@ const Login = () => {
             <div>
               <h2 className="mb-4 text-center">Forgot Password?</h2>
               <p className="text-center text-muted">
-                Enter the email address you used when you joined, and well send
-                you instructions to reset your password.
+                Enter your email and we&asop;ll send you reset instructions.
               </p>
-              <form>
+              {error && <p className="text-danger text-center">{error}</p>}
+              <form onSubmit={handleForgotPassword}>
                 <div className="mb-3">
                   <label className="form-label">Email Address</label>
                   <input
                     type="email"
                     className="form-control custom-input"
-                    placeholder="Enter your email..."
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
                 <button
@@ -78,7 +92,7 @@ const Login = () => {
               </form>
               <p className="mt-3 text-center">
                 <button
-                  className="btn btn-link"
+                  className="btn btn-link text-black"
                   onClick={() => setIsForgotPassword(false)}
                 >
                   Back to Login
@@ -92,7 +106,10 @@ const Login = () => {
               <button className="btn btn-light w-100 mb-3 border custom-input">
                 <i className="fab fa-google me-2"></i> Sign in with Google
               </button>
-              <p className="text-center text-muted">or sign in with email</p>
+              <p className="text-center text-muted divider">
+                or sign in with email
+              </p>
+
               {error && <p className="text-danger text-center">{error}</p>}
 
               <form onSubmit={handleLogin}>
@@ -118,7 +135,7 @@ const Login = () => {
                   <div className="text-end">
                     <button
                       type="button"
-                      className="btn btn-link small"
+                      className="btn btn-link small text-black"
                       onClick={() => setIsForgotPassword(true)}
                     >
                       Forgot?
@@ -134,7 +151,7 @@ const Login = () => {
               </form>
               <p className="mt-3 text-center">
                 Don’t have an account?{" "}
-                <Link to="/Signup">
+                <Link to="/SignUp">
                   <u>Sign up</u>
                 </Link>
               </p>

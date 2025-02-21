@@ -394,7 +394,7 @@ changePassword: async (req, res) => {
       // Hash new password and update
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       await Models.user.update({ password: hashedPassword }, { where: { id: req.body.id } });
-     res.render("success Password")
+     res.render("successPassword")
 
       // return res.status(200).json({ message: "Password reset successfully!" });
 

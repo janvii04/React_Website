@@ -1,8 +1,4 @@
 
-
-
-
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -38,7 +34,7 @@ const Navbar = () => {
     }
     try {
       await axios.post(
-        "http://localhost:3000/users/logout",
+        "http://localhost:3001/users/logout",
         { deviceToken: "abc" },
         {
           headers: { authorization: `Bearer ${JSON.parse(token).token}` },
