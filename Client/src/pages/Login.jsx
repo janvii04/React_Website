@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "/Style.css";
 
+
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -31,7 +32,7 @@ const Login = () => {
     setError(null);
     try {
       const response = await axios.post("http://localhost:3001/users/login", {
-        search: email,
+        userDetail: email,
         password,
       });
       localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -48,7 +49,8 @@ const Login = () => {
       <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
         <h1
           className="position-absolute top-0 start-0 m-3 fst-italic"
-          style={{ fontFamily: "cursive", cursor: "pointer" }}
+          
+          style= {{fontFamily: "cursive", cursor: "pointer" }}
           onClick={() => (window.location.href = "/")}
         >
           Dribbble

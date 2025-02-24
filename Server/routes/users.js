@@ -3,7 +3,6 @@ const controllers = require('../controllers');
 const  verifyToken  = require('../middlewares/verifyToken').verifyToken;
 var router = express.Router();
 
-// router.get("/",controllers.userController.getData)
 router.post('/signUp', controllers.userController.signUp)
 router.post('/login', controllers.userController.login)
 router.post('/logout', verifyToken, controllers.userController.logout)

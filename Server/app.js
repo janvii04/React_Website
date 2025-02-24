@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -13,6 +14,10 @@ require("./dbConnection").connectionDB()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs'); 
+
+app.use(cors()); 
+app.options("*", cors());  
+
 
 app.use(logger('dev')); 
 app.use(express.json());
