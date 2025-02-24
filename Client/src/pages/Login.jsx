@@ -1,19 +1,249 @@
+// import { useState } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import "/Style.css";
+
+
+// const Login = () => {
+//   const [isForgotPassword, setIsForgotPassword] = useState(false);
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+
+//   const handleForgotPassword = async (e) => {
+//     e.preventDefault();
+//     setError(null);
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:3001/users/forgotPassword",
+//         { email }
+//       );
+//       alert(response.data.message);
+//       setIsForgotPassword(false);
+//       setEmail("");
+//     } catch (error) {
+//       setError("Error sending reset link. Please try again.", error);
+//     }
+//   };
+
+//   const handleLogin = async (e) => {
+//     e.preventDefault();
+//     setError(null);
+//     try {
+//       const response = await axios.post("http://localhost:3001/users/login", {
+//         userDetail: email,
+//         password,
+//       });
+//       localStorage.setItem("user", JSON.stringify(response.data.user));
+//       console.log("response", response);
+//       navigate("/");
+//     } catch (error) {
+//       setError("Invalid email or password.", error);
+//     }
+//   };
+
+//   return (
+//     <div className="container-fluid vh-100 d-flex">
+//       {/* Left Side - Background */}
+//       <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
+//         <h1
+//           className="position-absolute top-0 start-0 m-3 fst-italic"
+          
+//           style= {{fontFamily: "cursive", cursor: "pointer" }}
+//           onClick={() => (window.location.href = "/")}
+//         >
+//           Dribbble
+//         </h1>
+//         <img
+//           src="img17.gif"
+//           alt="Background"
+//           className="img-fluid vh-100 w-100"
+//           style={{ objectFit: "cover" }}
+//         />
+//       </div>
+
+//       {/* Right Side - Login / Forgot Password Form */}
+//       <div className="col-md-6 d-flex align-items-center justify-content-center">
+//         <div className="w-75">
+//           {isForgotPassword ? (
+//             // Forgot Password Form
+//             <div>
+//               <h2 className="mb-4 text-center">Forgot Password?</h2>
+//               <p className="text-center text-muted">
+//                 Enter your email and we&asop;ll send you reset instructions.
+//               </p>
+//               {error && <p className="text-danger text-center">{error}</p>}
+//               <form onSubmit={handleForgotPassword}>
+//                 <div className="mb-3">
+//                   <label className="form-label">Email Address</label>
+//                   <input
+//                     type="email"
+//                     className="form-control custom-input"
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                     required
+//                   />
+//                 </div>
+//                 <button
+//                   type="submit"
+//                   className="btn btn-dark w-100 custom-input"
+//                 >
+//                   Send Reset Instructions
+//                 </button>
+//               </form>
+//               <p className="mt-3 text-center">
+//                 <button
+//                   className="btn btn-link text-black"
+//                   onClick={() => setIsForgotPassword(false)}
+//                 >
+//                   Back to Login
+//                 </button>
+//               </p>
+//             </div>
+//           ) : (
+//             // Login Form
+//             <div>
+//               <h2 className="mb-4 text-center">Sign in to Dribbble</h2>
+//               <button className="btn btn-light w-100 mb-3 border custom-input">
+//                 <i className="fab fa-google me-2"></i> Sign in with Google
+//               </button>
+//               <p className="text-center text-muted divider">
+//                 or sign in with email
+//               </p>
+
+//               {error && <p className="text-danger text-center">{error}</p>}
+
+//               <form onSubmit={handleLogin}>
+//                 <div className="mb-3">
+//                   <label className="form-label">Username or Email</label>
+//                   <input
+//                     type="text"
+//                     className="form-control custom-input"
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                     required
+//                   />
+//                 </div>
+//                 <div className="mb-3">
+//                   <label className="form-label">Password</label>
+//                   <input
+//                     type="password"
+//                     className="form-control custom-input"
+//                     value={password}
+//                     onChange={(e) => setPassword(e.target.value)}
+//                     required
+//                   />
+//                   <div className="text-end">
+//                     <button
+//                       type="button"
+//                       className="btn btn-link small text-black"
+//                       onClick={() => setIsForgotPassword(true)}
+//                     >
+//                       Forgot?
+//                     </button>
+//                   </div>
+//                 </div>
+//                 <button
+//                   type="submit"
+//                   className="btn btn-dark w-100 custom-input"
+//                 >
+//                   Sign In
+//                 </button>
+//               </form>
+//               <p className="mt-3 text-center">
+//                 Don’t have an account?{" "}
+//                 <Link to="/SignUp">
+//                   <u>Sign up</u>
+//                 </Link>
+//               </p>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "/Style.css";
 
-
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
-  const [email, setEmail] = useState("");
+  const [userDetail, setUserDetail] = useState(""); 
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(""); 
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
+  const isValidEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
+  const isValidUsername = (username) => /^[a-zA-Z0-9_]+$/.test(username); 
+
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!userDetail.trim()) {
+      newErrors.userDetail = "Username or Email is required";
+    } else if (!isValidEmail(userDetail) && !isValidUsername(userDetail)) {
+      newErrors.userDetail = "Enter a valid email or username (no spaces)";
+    }
+
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Incorrect Password";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle Login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setError(null);
+
+    if (!validateForm()) return;
+
+    try {
+      const response = await axios.post("http://localhost:3001/users/login", {
+        userDetail,
+        password,
+      });
+
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      console.log("Login successful:", response);
+      navigate("/");
+    } catch (error) {
+      setError("Invalid email, username, or password.",error);
+    }
+  };
+
+  // Handle Forgot Password
   const handleForgotPassword = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
     setError(null);
+  
+    let newErrors = {};
+  
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!isValidEmail(email)) {
+      newErrors.email = "Enter a valid email address";
+    }
+  
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return; // Stop submission if there are validation errors
+  
     try {
       const response = await axios.post(
         "http://localhost:3001/users/forgotPassword",
@@ -22,26 +252,13 @@ const Login = () => {
       alert(response.data.message);
       setIsForgotPassword(false);
       setEmail("");
+      setSubmitted(false);
+      setErrors({});
     } catch (error) {
-      setError("Error sending reset link. Please try again.", error);
+      setError("Error sending reset link. Please try again.",error);
     }
   };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError(null);
-    try {
-      const response = await axios.post("http://localhost:3001/users/login", {
-        userDetail: email,
-        password,
-      });
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      console.log("response", response);
-      navigate("/");
-    } catch (error) {
-      setError("Invalid email or password.", error);
-    }
-  };
+  
 
   return (
     <div className="container-fluid vh-100 d-flex">
@@ -49,8 +266,7 @@ const Login = () => {
       <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
         <h1
           className="position-absolute top-0 start-0 m-3 fst-italic"
-          
-          style= {{fontFamily: "cursive", cursor: "pointer" }}
+          style={{ fontFamily: "cursive", cursor: "pointer" }}
           onClick={() => (window.location.href = "/")}
         >
           Dribbble
@@ -63,7 +279,6 @@ const Login = () => {
         />
       </div>
 
-      {/* Right Side - Login / Forgot Password Form */}
       <div className="col-md-6 d-flex align-items-center justify-content-center">
         <div className="w-75">
           {isForgotPassword ? (
@@ -71,7 +286,7 @@ const Login = () => {
             <div>
               <h2 className="mb-4 text-center">Forgot Password?</h2>
               <p className="text-center text-muted">
-                Enter your email and we&asop;ll send you reset instructions.
+                Enter your email and we’ll send you reset instructions.
               </p>
               {error && <p className="text-danger text-center">{error}</p>}
               <form onSubmit={handleForgotPassword}>
@@ -82,13 +297,10 @@ const Login = () => {
                     className="form-control custom-input"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                   />
+                  {submitted && errors.email && <p className="text-danger small">{errors.email}</p>}
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-dark w-100 custom-input"
-                >
+                <button type="submit" className="btn btn-dark w-100 custom-input">
                   Send Reset Instructions
                 </button>
               </form>
@@ -108,9 +320,7 @@ const Login = () => {
               <button className="btn btn-light w-100 mb-3 border custom-input">
                 <i className="fab fa-google me-2"></i> Sign in with Google
               </button>
-              <p className="text-center text-muted divider">
-                or sign in with email
-              </p>
+              <p className="text-center text-muted divider">or sign in with email</p>
 
               {error && <p className="text-danger text-center">{error}</p>}
 
@@ -120,10 +330,10 @@ const Login = () => {
                   <input
                     type="text"
                     className="form-control custom-input"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+                    value={userDetail}
+                    onChange={(e) => setUserDetail(e.target.value)}
                   />
+                  {submitted && errors.userDetail && <p className="text-danger small">{errors.userDetail}</p>}
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Password</label>
@@ -132,8 +342,8 @@ const Login = () => {
                     className="form-control custom-input"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
                   />
+                  {submitted && errors.password && <p className="text-danger small">{errors.password}</p>}
                   <div className="text-end">
                     <button
                       type="button"
@@ -144,10 +354,7 @@ const Login = () => {
                     </button>
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-dark w-100 custom-input"
-                >
+                <button type="submit" className="btn btn-dark w-100 custom-input">
                   Sign In
                 </button>
               </form>

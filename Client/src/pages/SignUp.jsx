@@ -1,15 +1,44 @@
-// // // import React from 'react'
 
 // import { useState } from "react";
-// import { Link } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import "/Style.css";
 
 // const SignUp = () => {
 //   const [showEmailForm, setShowEmailForm] = useState(false);
+//   const [name, setName] = useState("");
+//   const [userName, setUserName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+
+//   const handleSignUp = async (e) => {
+//     e.preventDefault();
+//     setError(null);
+
+//     try {
+//       const response = await axios.post("http://localhost:3001/users/signUp", {
+//         name,
+//         userName,
+//         email,
+//         password,
+//       });
+
+//       console.log("Signup success:", response.data);
+//       navigate("/"); // Redirect after signup
+//     } catch (error) {
+//       console.error("Signup Error:", error.response?.data || error);
+//       setError(
+//         error.response?.data?.message || "Signup failed. Please try again."
+//       );
+//     }
+//   };
 
 //   return (
 //     <div className="container-fluid vh-100 d-flex">
+//       {/* Left side with image */}
 //       <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
-//         {/* Text Overlay */}
 //         <h1
 //           className="position-absolute top-0 start-0 m-3 fst-italic"
 //           style={{ fontFamily: "cursive", cursor: "pointer" }}
@@ -17,7 +46,6 @@
 //         >
 //           Dribbble
 //         </h1>
-//         {/* Background Image */}
 //         <img
 //           src="img17.gif"
 //           alt="Background"
@@ -26,7 +54,7 @@
 //         />
 //       </div>
 
-//       {/* Right Side - Signup Form */}
+//       {/*Right Side - Signup Options */}
 //       <div className="col-md-7 d-flex align-items-center justify-content-center">
 //         <div className="form-container p-4">
 //           <h2 className="mb-4 text-center">Sign up to Dribbble</h2>
@@ -40,6 +68,7 @@
 
 //               <p className="text-center text-muted">or</p>
 //               <hr />
+
 //               {/* Email Sign-Up Button */}
 //               <button
 //                 className="btn btn-light w-100 mb-2 border custom-input"
@@ -47,11 +76,9 @@
 //               >
 //                 Continue with email
 //               </button>
-//               <label
-//                 className="form-check-label small text-muted"
-//                 htmlFor="termsCheck"
-//               >
-//                 By creating an account you agree with our{" "}
+
+//               <label className="form-check-label small text-muted">
+//                 By creating an account, you agree to our{" "}
 //                 <Link to="/terms">
 //                   <u>Terms of Service</u>
 //                 </Link>
@@ -59,7 +86,7 @@
 //                 <Link to="/privacy">
 //                   <u>Privacy Policy</u>
 //                 </Link>
-//                 , and our default{" "}
+//                 , and our{" "}
 //                 <Link to="/settings">
 //                   <u>Notification Settings</u>
 //                 </Link>
@@ -78,71 +105,81 @@
 //               </button>
 
 //               {/* Email Signup Form */}
-//               <div className="mb-3">
-//                 <label className="form-label">Name</label>
-//                 <input
-//                   type="text"
-//                   className="form-control custom-input"
-//                   placeholder="Your Name"
-//                 />
-//               </div>
+//               {error && <p className="text-danger text-center">{error}</p>}
 
-//               <div className="mb-3">
-//                 <label className="form-label">Username</label>
-//                 <input
-//                   type="text"
-//                   className="form-control custom-input"
-//                   placeholder="Username"
-//                 />
-//               </div>
+//               <form onSubmit={handleSignUp}>
+//                 <div className="mb-3">
+//                   <label className="form-label">Name</label>
+//                   <input
+//                     type="text"
+//                     className="form-control custom-input"
+//                     value={name}
+//                     onChange={(e) => setName(e.target.value)}
+//                     required
+//                   />
+//                 </div>
 
-//               <div className="mb-3">
-//                 <label className="form-label">Email</label>
-//                 <input
-//                   type="email"
-//                   className="form-control custom-input"
-//                   placeholder="Email Address"
-//                 />
-//               </div>
+//                 <div className="mb-3">
+//                   <label className="form-label">Username</label>
+//                   <input
+//                     type="text"
+//                     className="form-control custom-input"
+//                     value={userName}
+//                     onChange={(e) => setUserName(e.target.value)}
+//                     required
+//                   />
+//                 </div>
 
-//               <div className="mb-3">
-//                 <label className="form-label">Password</label>
-//                 <input
-//                   type="password"
-//                   className="form-control custom-input"
-//                   placeholder="6+ characters"
-//                 />
-//               </div>
+//                 <div className="mb-3">
+//                   <label className="form-label">Email</label>
+//                   <input
+//                     type="email"
+//                     className="form-control custom-input"
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                     required
+//                   />
+//                 </div>
 
-//               <div className="mb-3 form-check">
-//                 <input
-//                   type="checkbox"
-//                   className="form-check-input"
-//                   id="termsCheck"
-//                 />
-//                 <label
-//                   className="form-check-label small text-muted"
-//                   htmlFor="termsCheck"
-//                 >
-//                   I agree with Dribbble&asop;s{" "}
-//                   <Link to="/terms">
-//                     <u>Terms of Service</u>
-//                   </Link>
-//                   ,{" "}
-//                   <Link to="/privacy">
-//                     <u>Privacy Policy</u>
-//                   </Link>
-//                   , and default{" "}
-//                   <Link to="/settings">
-//                     <u>Notification Settings</u>
-//                   </Link>
-//                   .
-//                 </label>
-//               </div>
+//                 <div className="mb-3">
+//                   <label className="form-label">Password</label>
+//                   <input
+//                     type="password"
+//                     className="form-control custom-input"
+//                     value={password}
+//                     onChange={(e) => setPassword(e.target.value)}
+//                     required
+//                   />
+//                 </div>
 
-//               <button className="btn btn-dark w-100 mb-2 custom-input">
-//                 Create Account
-//               </button>
+//                 <div className="mb-3 form-check">
+//                   <input
+//                     type="checkbox"
+//                     className="form-check-input"
+//                     id="termsCheck"
+//                     required
+//                   />
+//                   <label className="form-check-label small text-muted">
+//                     I agree to Dribbble’s{" "}
+//                     <Link to="/terms">
+//                       <u>Terms of Service</u>
+//                     </Link>
+//                     ,{" "}
+//                     <Link to="/privacy">
+//                       <u>Privacy Policy</u>
+//                     </Link>
+//                     , and{" "}
+//                     <Link to="/settings">
+//                       <u>Notification Settings</u>
+//                     </Link>
+//                     .
+//                   </label>
+//                 </div>
+
+//                 <button type="submit" className="btn btn-dark w-100 mb-2 custom-input">
+//                   Create Account
+//                 </button>
+//               </form>
 //             </>
 //           )}
 
@@ -163,6 +200,7 @@
 
 
 
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -174,12 +212,46 @@ const SignUp = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    const errors = {};
+
+    if (!name.trim()) errors.name = "Name is required";
+    if (!userName.trim()) errors.userName = "Username is required";
+    if (!email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      errors.email = "Invalid email format";
+    }
+    if (!password.trim()) {
+      errors.password = "Password is required";
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+
+    setValidationErrors(errors);
+    
+    // If there are errors in fields, return false immediately
+    if (Object.keys(errors).length > 0) return false;
+
+    // Only check the checkbox after other fields are validated
+    if (!isChecked) {
+      setValidationErrors({ checkbox: "You must agree to the terms." });
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError(null);
+
+    if (!validateForm()) return; // Stop if validation fails
 
     try {
       const response = await axios.post("http://localhost:3001/users/signUp", {
@@ -276,44 +348,60 @@ const SignUp = () => {
                   <label className="form-label">Name</label>
                   <input
                     type="text"
-                    className="form-control custom-input"
+                    className={`form-control custom-input ${
+                      validationErrors.name ? "is-invalid" : ""
+                    }`}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
                   />
+                  {validationErrors.name && (
+                    <div className="invalid-feedback">{validationErrors.name}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
                   <label className="form-label">Username</label>
                   <input
                     type="text"
-                    className="form-control custom-input"
+                    className={`form-control custom-input ${
+                      validationErrors.userName ? "is-invalid" : ""
+                    }`}
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                    required
                   />
+                  {validationErrors.userName && (
+                    <div className="invalid-feedback">{validationErrors.userName}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
                   <label className="form-label">Email</label>
                   <input
                     type="email"
-                    className="form-control custom-input"
+                    className={`form-control custom-input ${
+                      validationErrors.email ? "is-invalid" : ""
+                    }`}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                   />
+                  {validationErrors.email && (
+                    <div className="invalid-feedback">{validationErrors.email}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
                   <label className="form-label">Password</label>
                   <input
                     type="password"
-                    className="form-control custom-input"
+                    className={`form-control custom-input ${
+                      validationErrors.password ? "is-invalid" : ""
+                    }`}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
                   />
+                  {validationErrors.password && (
+                    <div className="invalid-feedback">{validationErrors.password}</div>
+                  )}
                 </div>
 
                 <div className="mb-3 form-check">
@@ -321,7 +409,8 @@ const SignUp = () => {
                     type="checkbox"
                     className="form-check-input"
                     id="termsCheck"
-                    required
+                    checked={isChecked}
+                    onChange={() => setIsChecked(!isChecked)}
                   />
                   <label className="form-check-label small text-muted">
                     I agree to Dribbble’s{" "}
@@ -338,6 +427,9 @@ const SignUp = () => {
                     </Link>
                     .
                   </label>
+                  {validationErrors.checkbox && (
+                    <div className="text-danger">{validationErrors.checkbox}</div>
+                  )}
                 </div>
 
                 <button type="submit" className="btn btn-dark w-100 mb-2 custom-input">
@@ -346,14 +438,6 @@ const SignUp = () => {
               </form>
             </>
           )}
-
-          {/* Already have an account */}
-          <p className="mt-3 text-center">
-            Already have an account?{" "}
-            <Link to="/Login">
-              <u>Sign In</u>
-            </Link>
-          </p>
         </div>
       </div>
     </div>

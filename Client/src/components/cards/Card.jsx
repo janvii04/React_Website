@@ -1,11 +1,7 @@
-
-
-
-
 import { useState } from "react";
 import { FaHeart, FaBookmark, FaEye } from "react-icons/fa";
 import constants from "../../utils/constants";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const cardsData = constants;
@@ -59,7 +55,7 @@ const Card = () => {
         setShowAuthModal(false);
 
         // Navigate to home
-        setTimeout(() => navigate("/"), 100); 
+        setTimeout(() => navigate("/"), 100);
       } else {
         alert("Invalid login response!");
       }
@@ -80,7 +76,7 @@ const Card = () => {
       });
 
       const data = await response.json();
-      if (response.ok) { 
+      if (response.ok) {
         alert("Signup Successful! Please Login.");
         setIsLogin(true);
       } else {
@@ -89,7 +85,7 @@ const Card = () => {
     } catch (error) {
       console.error("Error:", error);
       alert("Something went wrong!");
-    } 
+    }
   };
 
   return (
@@ -101,7 +97,10 @@ const Card = () => {
             className="col position-relative"
             onMouseEnter={() => setHoveredCard(card.id)}
             onMouseLeave={() => setHoveredCard(null)}
-            onClick={() => setSelectedCard(card)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedCard(card);
+            }}
           >
             <div className="card border-0 rounded overflow-hidden">
               <img
@@ -151,7 +150,10 @@ const Card = () => {
                 <div className="detail-view">
                   <button
                     className="back-btn"
-                    onClick={() => setSelectedCard(null)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedCard(null);
+                    }}
                   >
                     Close
                   </button>
@@ -173,39 +175,101 @@ const Card = () => {
       {showAuthModal && (
         <div className="auth-modal">
           <div className="modal-content">
-            <button className="close-btn" onClick={() => setShowAuthModal(false)}>✖</button>
+            <button
+              className="close-btn"
+              onClick={() => setShowAuthModal(false)}
+            >
+              ✖
+            </button>
 
             {isLogin ? (
               <>
                 <h2>Sign in to continue</h2>
                 <p>To like this post, please log in to your account.</p>
-                <input type="text" placeholder="Email or Username" className="input-field" value={userDetail} onChange={(e) => setUserDetail(e.target.value)} />
-                <input type="password" placeholder="Password" className="input-field" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button className="btn btn-dark w-100" onClick={handleLogin}>Login</button>
+                <input
+                  type="text"
+                  placeholder="Email or Username"
+                  className="input-field"
+                  value={userDetail}
+                  onChange={(e) => setUserDetail(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input-field"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button className="btn btn-dark w-100" onClick={handleLogin}>
+                  Login
+                </button>
                 <p className="mt-3 text-center">
                   Don’t have an account?{" "}
-                  <span className="register-link" onClick={() => setIsLogin(false)}>Sign up</span>
+                  <span
+                    className="register-link"
+                    onClick={() => setIsLogin(false)}
+                  >
+                    Sign up
+                  </span>
                 </p>
               </>
             ) : (
               <>
                 <h2>Create an account</h2>
                 <p>Sign up to like this post and engage with content.</p>
-                <input type="text" placeholder="Full Name" className="input-field" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                <input type="text" placeholder="Email or Username" className="input-field" value={userDetail} onChange={(e) => setUserDetail(e.target.value)} />
-                <input type="password" placeholder="Password" className="input-field" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button className="btn btn-dark w-100" onClick={handleSignup}>Sign Up</button>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  className="input-field"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Email or Username"
+                  className="input-field"
+                  value={userDetail}
+                  onChange={(e) => setUserDetail(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input-field"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button className="btn btn-dark w-100" onClick={handleSignup}>
+                  Sign Up
+                </button>
                 <p className="mt-3 text-center">
                   Already have an account?{" "}
-                  <span className="register-link" onClick={() => setIsLogin(true)}>Login</span>
+                  <span
+                    className="register-link"
+                    onClick={() => setIsLogin(true)}
+                  >
+                    Login
+                  </span>
                 </p>
               </>
             )}
           </div>
         </div>
       )}
-           <style>
+      <style>
         {`
+
+        .detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
         .auth-modal {
   position: fixed;
   top: 0;
