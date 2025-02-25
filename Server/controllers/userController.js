@@ -12,7 +12,6 @@ const Response = require("../helpers/response");
 const secretKey = "secretKey";
 
 module.exports = {
-
   signUp: async (req, res) => {
     try {
       const schema = Joi.object({
@@ -126,18 +125,18 @@ module.exports = {
       });
 
       if (!user) {
-        return commonHelper.failed(res, Response.failed_msg.noAccWEmail);
+        return commonHelper.error(res, Response.failed_msg.noAccWEmail);
       }
 
       const resetToken = crypto.randomBytes(32).toString("hex");
       const resetTokenExpires = new Date(Date.now() + 3600000); // 1 hour expiry
 
       await Models.user.update(
-        {
-          resetToken,
-          resetTokenExpires: new Date(Date.now() + 3600000).toISOString(), // ✅ Ensures correct format
-        },
-        { where: { email: email } }
+        
+          {resetToken,resetTokenExpires},
+          { where: { email: email } }
+
+      
       );
 
       const resetLink = `${req.protocol}://${req.headers.host}/users/resetPassword?token=${resetToken}`;
@@ -231,5 +230,4 @@ module.exports = {
         .json({ message: "Server error", error: err.message });
     }
   },
-  
 };

@@ -1,177 +1,8 @@
-// import { useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import "/Style.css";
-
-
-// const Login = () => {
-//   const [isForgotPassword, setIsForgotPassword] = useState(false);
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [error, setError] = useState(null);
-//   const navigate = useNavigate();
-
-//   const handleForgotPassword = async (e) => {
-//     e.preventDefault();
-//     setError(null);
-//     try {
-//       const response = await axios.post(
-//         "http://localhost:3001/users/forgotPassword",
-//         { email }
-//       );
-//       alert(response.data.message);
-//       setIsForgotPassword(false);
-//       setEmail("");
-//     } catch (error) {
-//       setError("Error sending reset link. Please try again.", error);
-//     }
-//   };
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     setError(null);
-//     try {
-//       const response = await axios.post("http://localhost:3001/users/login", {
-//         userDetail: email,
-//         password,
-//       });
-//       localStorage.setItem("user", JSON.stringify(response.data.user));
-//       console.log("response", response);
-//       navigate("/");
-//     } catch (error) {
-//       setError("Invalid email or password.", error);
-//     }
-//   };
-
-//   return (
-//     <div className="container-fluid vh-100 d-flex">
-//       {/* Left Side - Background */}
-//       <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
-//         <h1
-//           className="position-absolute top-0 start-0 m-3 fst-italic"
-          
-//           style= {{fontFamily: "cursive", cursor: "pointer" }}
-//           onClick={() => (window.location.href = "/")}
-//         >
-//           Dribbble
-//         </h1>
-//         <img
-//           src="img17.gif"
-//           alt="Background"
-//           className="img-fluid vh-100 w-100"
-//           style={{ objectFit: "cover" }}
-//         />
-//       </div>
-
-//       {/* Right Side - Login / Forgot Password Form */}
-//       <div className="col-md-6 d-flex align-items-center justify-content-center">
-//         <div className="w-75">
-//           {isForgotPassword ? (
-//             // Forgot Password Form
-//             <div>
-//               <h2 className="mb-4 text-center">Forgot Password?</h2>
-//               <p className="text-center text-muted">
-//                 Enter your email and we&asop;ll send you reset instructions.
-//               </p>
-//               {error && <p className="text-danger text-center">{error}</p>}
-//               <form onSubmit={handleForgotPassword}>
-//                 <div className="mb-3">
-//                   <label className="form-label">Email Address</label>
-//                   <input
-//                     type="email"
-//                     className="form-control custom-input"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                     required
-//                   />
-//                 </div>
-//                 <button
-//                   type="submit"
-//                   className="btn btn-dark w-100 custom-input"
-//                 >
-//                   Send Reset Instructions
-//                 </button>
-//               </form>
-//               <p className="mt-3 text-center">
-//                 <button
-//                   className="btn btn-link text-black"
-//                   onClick={() => setIsForgotPassword(false)}
-//                 >
-//                   Back to Login
-//                 </button>
-//               </p>
-//             </div>
-//           ) : (
-//             // Login Form
-//             <div>
-//               <h2 className="mb-4 text-center">Sign in to Dribbble</h2>
-//               <button className="btn btn-light w-100 mb-3 border custom-input">
-//                 <i className="fab fa-google me-2"></i> Sign in with Google
-//               </button>
-//               <p className="text-center text-muted divider">
-//                 or sign in with email
-//               </p>
-
-//               {error && <p className="text-danger text-center">{error}</p>}
-
-//               <form onSubmit={handleLogin}>
-//                 <div className="mb-3">
-//                   <label className="form-label">Username or Email</label>
-//                   <input
-//                     type="text"
-//                     className="form-control custom-input"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                     required
-//                   />
-//                 </div>
-//                 <div className="mb-3">
-//                   <label className="form-label">Password</label>
-//                   <input
-//                     type="password"
-//                     className="form-control custom-input"
-//                     value={password}
-//                     onChange={(e) => setPassword(e.target.value)}
-//                     required
-//                   />
-//                   <div className="text-end">
-//                     <button
-//                       type="button"
-//                       className="btn btn-link small text-black"
-//                       onClick={() => setIsForgotPassword(true)}
-//                     >
-//                       Forgot?
-//                     </button>
-//                   </div>
-//                 </div>
-//                 <button
-//                   type="submit"
-//                   className="btn btn-dark w-100 custom-input"
-//                 >
-//                   Sign In
-//                 </button>
-//               </form>
-//               <p className="mt-3 text-center">
-//                 Don’t have an account?{" "}
-//                 <Link to="/SignUp">
-//                   <u>Sign up</u>
-//                 </Link>
-//               </p>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "/Style.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -220,10 +51,26 @@ const Login = () => {
       });
 
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      console.log("Login successful:", response);
-      navigate("/");
+      
+      // Show Success Toast
+      toast.success("Login successful!", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+
+      // Redirect after showing toast
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+
     } catch (error) {
       setError("Invalid email, username, or password.",error);
+      
+      // Show Error Toast
+      toast.error("Login Failed !", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -242,27 +89,38 @@ const Login = () => {
     }
   
     setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return; // Stop submission if there are validation errors
+    if (Object.keys(newErrors).length > 0) return; 
   
     try {
       const response = await axios.post(
         "http://localhost:3001/users/forgotPassword",
         { email }
       );
-      alert(response.data.message);
+      console.log("fghj",response)
+      
+      // Show Success Toast
+      toast.success("Reset instructions sent to your email!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+
       setIsForgotPassword(false);
       setEmail("");
       setSubmitted(false);
       setErrors({});
     } catch (error) {
-      setError("Error sending reset link. Please try again.",error);
+      setError("Please enter a valid email.",error);
+      
+      // Show Error Toast
+      toast.error("Failed to send reset instructions. Try again!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
-  
 
   return (
     <div className="container-fluid vh-100 d-flex">
-      {/* Left Side - Background */}
       <div className="d-none d-md-flex col-md-4 bg-dark text-white align-items-center justify-content-center position-relative">
         <h1
           className="position-absolute top-0 start-0 m-3 fst-italic"
@@ -358,6 +216,7 @@ const Login = () => {
                   Sign In
                 </button>
               </form>
+
               <p className="mt-3 text-center">
                 Don’t have an account?{" "}
                 <Link to="/SignUp">
@@ -368,8 +227,12 @@ const Login = () => {
           )}
         </div>
       </div>
+
+      {/* Toast Notification Container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
 
 export default Login;
+
