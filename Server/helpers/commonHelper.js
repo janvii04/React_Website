@@ -42,7 +42,8 @@ module.exports = {
             from: process.env.EMAIL_USER,
             to: user.email,
             subject: subject,
-            html: emailTemplate,
+            html: emailTemplate(resetUrl),
+
         };
     },
     success: (res, message, data = {}) => {

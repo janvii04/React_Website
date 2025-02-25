@@ -14,38 +14,46 @@ const secretKey = "secretKey";
 module.exports = {
   signUp: async (req, res) => {
     try {
-      const schema = Joi.object({
-        name: Joi.string().required(),
-        userName: Joi.string().required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().min(6).required(),
-      });
-      let payload = await helper.validationJoi(req.body, schema);
-      if (!payload) {
-        return res.status(400).json({ message: "Invalid request data" });
-      }
-      let userExist = await Models.user.findOne({
-        where: { email: payload.email },
-      });
-      if (userExist) {
-        return res
-          .status(400)
-          .json({ msg: "User already exists with the same email" });
-      }
-      const hashedPassword = await bcrypt.hash(payload.password, 10);
-      let newUser = await Models.user.create({
-        name: payload.name,
-        userName: payload.userName,
-        email: payload.email,
-        password: hashedPassword,
-      });
-      return res
-        .status(201)
-        .json({ msg: "User registered successfully", user: newUser });
+        const schema = Joi.object({
+            name: Joi.string().required(),
+            userName: Joi.string().required(),
+            email: Joi.string().email().required(),
+            password: Joi.string().min(6).required(),
+            deviceToken: Joi.string().optional()
+        });
+        let payload = await helper.validationJoi(req.body, schema);
+        if (!payload) {
+            return res.status(400).json({ message: "Invalid request data" });
+        }
+        let userExist = await Models.user.findOne({ where: { email: payload.email } });
+        if (userExist) {
+            return res.status(400).json({ msg: "User already exists with the same email" });
+        }
+        const hashedPassword = await bcrypt.hash(payload.password, 10);
+        let newUser = await Models.user.create({
+            name: payload.name,
+            userName: payload.userName,
+            email: payload.email,
+            password: hashedPassword
+        });
+        const token = jwt.sign(
+            { id: newUser.id, email: newUser.email },
+            secretKey,
+            { expiresIn: "1h" }
+        );
+        let user=await Models.user.findOne({
+            where:{
+                id:newUser.id
+            },raw:true
+        })
+        user.token=token 
+        console.log("newUser",user);
+        return res.status(201).json({ msg: "User registered successfully", user: user });
     } catch (error) {
-      throw error;
+        console.error("Signup error:", error);
+        return res.status(500).json({ msg: "Internal server error", error: error.message });
     }
-  },
+},
 
   login: async (req, res) => {
     try {
