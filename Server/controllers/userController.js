@@ -12,49 +12,92 @@ const Response = require("../helpers/response");
 const secretKey = "secretKey";
 
 module.exports = {
-  signUp: async (req, res) => {
-    try {
-        const schema = Joi.object({
-            name: Joi.string().required(),
-            userName: Joi.string().required(),
-            email: Joi.string().email().required(),
-            password: Joi.string().min(6).required(),
-            deviceToken: Joi.string().optional()
-        });
-        let payload = await helper.validationJoi(req.body, schema);
-        if (!payload) {
-            return res.status(400).json({ message: "Invalid request data" });
-        }
-        let userExist = await Models.user.findOne({ where: { email: payload.email } });
-        if (userExist) {
-            return res.status(400).json({ msg: "User already exists with the same email" });
-        }
-        const hashedPassword = await bcrypt.hash(payload.password, 10);
-        let newUser = await Models.user.create({
-            name: payload.name,
-            userName: payload.userName,
-            email: payload.email,
-            password: hashedPassword
-        });
-        const token = jwt.sign(
-            { id: newUser.id, email: newUser.email },
-            secretKey,
-            { expiresIn: "1h" }
-        );
-        let user=await Models.user.findOne({
-            where:{
-                id:newUser.id
-            },raw:true
-        })
-        user.token=token 
-        console.log("newUser",user);
-        return res.status(201).json({ msg: "User registered successfully", user: user });
-    } catch (error) {
-        console.error("Signup error:", error);
-        return res.status(500).json({ msg: "Internal server error", error: error.message });
-    }
+
+
+
+signUp: async (req, res) => {
+  try {
+      console.log("req.body", req.body);
+
+      const schema = Joi.object({
+          name: Joi.string().required(),
+          userName: Joi.string().required(),
+          phoneNumber: Joi.string().required(),
+          countryCode: Joi.string().optional(),
+          email: Joi.string().email({ tlds: { allow: false } }).required(),
+          password: Joi.string().min(6).required(),
+          deviceToken: Joi.string().optional()
+      });
+
+      let payload = await helper.validationJoi(req.body, schema);
+      if (!payload) {
+          return res.status(400).json({ message: "Invalid request data" });
+      }
+
+      // Ensure proper phone number processing
+      let phoneNumber = payload.phoneNumber || ""; 
+      let countryParts = phoneNumber.split(" "); 
+      let country = countryParts[0] || "IN";  // Default country code
+      let phone = countryParts[1] || phoneNumber;  // Use original if no space
+
+      let userExist = await Models.user.findOne({ where: { email: payload.email } });
+      if (userExist) {
+          return res.status(400).json({ msg: "User already exists with the same email" });
+      }
+
+      const hashedPassword = await bcrypt.hash(payload.password, 10);
+
+      let newUser = await Models.user.create({
+          name: payload.name,
+          userName: payload.userName,
+          phoneNumber: phone,
+          countryCode: country,
+          email: payload.email,
+          password: hashedPassword
+      });
+
+      console.log("New User Created:", newUser);
+      return res.status(201).json({ msg: "User registered successfully", user: newUser });
+
+  } catch (error) {
+      console.error("Signup error:", error);
+      return res.status(500).json({ msg: "Internal server error", error: error.message });
+  }
 },
 
+otpVerify:async(req,res)=>{
+  try {
+      const schema = Joi.object({
+          phoneNumber: Joi.string().required(),
+          countrycode: Joi.string().required(),
+          otp: Joi.string().required(),
+      });
+      let payload = await helper.validationJoi(req.body, schema);
+      if (!payload) {
+          return res.status(400).json({ message: "Invalid request data" });
+      }
+      let user=await Models.user.findOne({
+          where:{
+              countrycode:payload.countrycode,
+              phoneNumber:payload.phoneNumber
+          },raw:true
+      })
+      if(payload.otp!=1111){
+       return res.status(400).json({ message: "Invalid otp" });
+      }else{
+          const token = jwt.sign(
+              { id: user.id },
+              secretKey,
+              { expiresIn: "1h" }
+          );
+      user.token=token 
+      return res.status(201).json({ msg: "User registered successfully", user: user });
+      }
+
+  } catch (error) {
+      throw error
+  }
+},
   login: async (req, res) => {
     try {
       const schema = Joi.object({
@@ -93,8 +136,8 @@ module.exports = {
       return res.status(500).json({ message: "Internal server error" });
     }
   },
-
-  logout: async (req, res) => {
+  
+ logout: async (req, res) => {
     try {
       console.log("req.body", req.user.id);
       const schema = Joi.object().keys({
