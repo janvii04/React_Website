@@ -4,6 +4,7 @@ const  verifyToken  = require('../middlewares/verifyToken').verifyToken;
 var router = express.Router();
 
 router.post('/signUp', controllers.userController.signUp)
+router.post('/otpVerify', controllers.userController.otpVerify)
 router.post('/login', controllers.userController.login)
 router.post('/logout', verifyToken, controllers.userController.logout)
 router.post('/forgotPassword', controllers.userController.forgotPassword)
