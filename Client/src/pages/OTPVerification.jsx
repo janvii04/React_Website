@@ -1,5 +1,3 @@
-
-
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,11 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "/Style.css";
 
 const OTPVerification = () => {
-  // OTP state with 6 digits
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [resendTimer, setResendTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  // Create 6 input references
   const inputRefs = useRef([...Array(6)].map(() => null));
   const navigate = useNavigate();
 
@@ -43,12 +39,16 @@ const OTPVerification = () => {
     }
 
     try {
+      console.log("Sending OTP:", otpCode, "Phone Number:", phoneNumber); // Debugging
+
       const response = await fetch("http://localhost:3001/users/otpVerify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ otp: otpCode, phoneNumber }),
       });
+
       const data = await response.json();
+
       if (response.ok) {
         toast.success("OTP Verified Successfully!");
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -64,7 +64,6 @@ const OTPVerification = () => {
     }
   }, [otp, navigate]);
 
-  // Auto-submit when all 6 digits are entered
   useEffect(() => {
     if (otp.join("").length === 6) {
       setTimeout(handleSubmit, 300);
@@ -77,7 +76,7 @@ const OTPVerification = () => {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
-      if (index < otp.length - 1) {
+      if (index < 5) {
         inputRefs.current[index + 1].focus();
       }
     }
@@ -108,7 +107,7 @@ const OTPVerification = () => {
       <ToastContainer position="top-center" autoClose={2000} />
       <div className="otp-box">
         <h4>Enter OTP</h4>
-        <br/>
+        <br />
         <p>Enter the 6-digit code sent to your phone.</p>
         <div className="otp-inputs">
           {otp.map((digit, index) => (
@@ -130,9 +129,7 @@ const OTPVerification = () => {
             onClick={handleResend}
             disabled={isResendDisabled}
           >
-            {isResendDisabled
-              ? `Resend OTP in ${resendTimer}s`
-              : "Resend OTP"}
+            {isResendDisabled ? `Resend OTP in ${resendTimer}s` : "Resend OTP"}
           </button>
         </p>
       </div>
