@@ -4,6 +4,8 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import OTPVerification from "./pages/OTPVerification";
+// import SendOTP from "./pages/SendOTP";
+
 // import Terms from "./pages/Terms";
 
 export default function App() {
@@ -14,6 +16,8 @@ export default function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/otpVerify" element={<OTPVerification />} />
+        {/* <Route path="/sendOTP" element={<SendOTP />} /> */}
+
         {/* <Route path="/terms" element={<Terms />} /> */}
 
       </Routes>

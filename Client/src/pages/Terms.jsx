@@ -1,7 +1,7 @@
-// import React from "react";
+// // import React from "react";
 // import { Container, Row, Col } from "react-bootstrap";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "./Terms.css";
+// // import "bootstrap/dist/css/bootstrap.min.css";
+// import "/Style.css";
 
 // const Terms = () => {
 //   return (
@@ -31,5 +31,7 @@
 //     </Container>
 //   );
 // };
+
+
 
 // export default Terms;
