@@ -11,13 +11,51 @@ const crypto = require("crypto");
 const Response = require("../helpers/response");
 const secretKey = "secretKey";
 
+const passport = require('passport')
+const googleStrategy = require('passport-google-oauth2').Strategy;
+
 const twilio = require("twilio");
 const client = new twilio(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN
 );
 
+passport.use(
+  new googleStrategy({
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.CALLBACK_URL,
+      passReqToCallback: true
+  },
+      function (request, accessToken, refreshToken, profile, done) {
+          return done(null, profile);
+      }
+  ));
+
+passport.serializeUser((user, done) => {
+  done(null, user)
+})
+
+passport.deserializeUser(function (user, done) {
+  done(null, user)
+})
+
 module.exports = {
+
+  loadAuth: (req, res) => {
+    res.render('auth')
+},
+
+successGoogleLogin: (req, res) => {
+    if (!req.user)
+        res.redirect('/failure')
+    console.log(req.user)
+    res.send('Welcome ' + req.user.email)
+},
+
+failureGoogleLogin: (req, res) => {
+    res.send('Error')
+},
 
   signUp: async (req, res) => {
     try {
@@ -76,62 +114,7 @@ module.exports = {
     }
   },
 
-  // otpVerify: async (req, res) => {
-  //   try {
-  //     const schema = Joi.object({
-  //       phoneNumber: Joi.string().trim().required(),
-  //       otp: Joi.string().trim().length(6).required(),
-  //     });
-
-  //     const payload = await schema.validateAsync(req.body);
-  //     let { phoneNumber, otp } = payload;
-
-  //     // Ensure correct phone number format
-  //     if (!phoneNumber.startsWith("+")) {
-  //       phoneNumber = `+91${phoneNumber}`;
-  //     }
-
-  //     console.log("Verifying OTP for phone number:", phoneNumber);
-
-  //     // Verify OTP with Twilio
-  //     const verificationCheck = await client.verify.v2
-  //       .services(process.env.TWILIO_SERVICE_SID)
-  //       .verificationChecks.create({ to: phoneNumber, code: otp });
-
-  //     console.log("Twilio Response:", verificationCheck);
-
-  //     if (verificationCheck.status !== "approved") {
-  //       return res
-  //         .status(400)
-  //         .json({ message: "Invalid OTP. Please try again." });
-  //     }
-
-  //     // Find user and update isVerified status
-  //     let user = await Models.user.findOne({
-  //       where: { phoneNumber: phoneNumber },
-  //     });
-
-  //     if (!user) {
-  //       return res.status(404).json({ message: "User not found" });
-  //     }
-
-  //     await Models.user.update(
-  //       { isVerified: true },
-  //       { where: { phoneNumber: phoneNumber } }
-  //     );
-
-  //     // Generate JWT token
-  //     const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: "1h" });
-  //     user.token = token;
-  //     return res
-  //       .status(200)
-  //       .json({ message: "OTP verified successfully", user });
-  //   } catch (error) {
-  //     console.error("OTP Verification Error:", error);
-  //     return res.status(500).json({ message: "Internal server error" });
-  //   }
-  // },
-
+  
 
   otpVerify: async (req, res) => {
     try {

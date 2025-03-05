@@ -1,15 +1,15 @@
-
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "/Style.css";
 
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [userDetail, setUserDetail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState({});
@@ -21,7 +21,7 @@ const Login = () => {
 
   const validateForm = () => {
     let newErrors = {};
-  
+
     if (!userDetail.trim()) {
       newErrors.userDetail = "Username or Email is required";
     } else if (userDetail.includes("@")) {
@@ -31,31 +31,31 @@ const Login = () => {
     } else if (!isValidUsername(userDetail)) {
       newErrors.userDetail = "Enter a valid username (no spaces)";
     }
-  
+
     if (!password.trim()) {
       newErrors.password = "Password is required";
     } else if (password.length < 6) {
       newErrors.password = "Incorrect Password";
     }
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const handleInputChange = (e, field) => {
     const { value } = e.target;
     let newErrors = { ...errors };
-  
+
     if (field === "userDetail") {
       setUserDetail(value);
-  
+
       if (!value.trim()) {
         newErrors.userDetail = "Username or Email is required";
       } else if (value.includes("@")) {
         if (!isValidEmail(value)) {
           newErrors.userDetail = "Invalid email format";
         } else {
-          delete newErrors.userDetail; // Remove error when the full email is valid
+          delete newErrors.userDetail;
         }
       } else if (!isValidUsername(value)) {
         newErrors.userDetail = "Enter a valid username (no spaces)";
@@ -63,7 +63,7 @@ const Login = () => {
         delete newErrors.userDetail;
       }
     }
-  
+
     if (field === "password") {
       setPassword(value);
       if (!value.trim()) {
@@ -74,10 +74,10 @@ const Login = () => {
         delete newErrors.password;
       }
     }
-  
+
     if (field === "email") {
       setEmail(value);
-  
+
       // Show error until a complete valid email is entered
       if (!value.trim()) {
         newErrors.email = "Email is required";
@@ -87,10 +87,10 @@ const Login = () => {
         delete newErrors.email; // Remove error only when full email is correct
       }
     }
-  
+
     setErrors(newErrors);
   };
-  
+
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     setSubmitted(true);
@@ -163,7 +163,7 @@ const Login = () => {
           Dribbble
         </h1>
         <img
-          src="img17.gif"
+          src="img0.jpg"
           alt="Background"
           className="img-fluid vh-100 w-100"
           style={{ objectFit: "cover" }}
@@ -191,7 +191,10 @@ const Login = () => {
                     <p className="text-danger small">{errors.email}</p>
                   )}
                 </div>
-                <button type="submit" className="btn btn-dark w-100 custom-input">
+                <button
+                  type="submit"
+                  className="btn btn-dark w-100 custom-input"
+                >
                   Send Reset Instructions
                 </button>
               </form>
@@ -207,9 +210,13 @@ const Login = () => {
           ) : (
             <div>
               <h2 className="mb-4 text-center">Sign in to Dribbble</h2>
-              <button className="btn btn-light w-100 mb-3 border custom-input">
+              <button
+                className="btn btn-light w-100 mb-2 custom-input"
+                onClick={() => (window.location.href = "/auth/google")}
+              >
                 <i className="fab fa-google me-2"></i> Sign in with Google
               </button>
+
               <p className="text-center text-muted divider">
                 or sign in with email
               </p>
@@ -229,14 +236,23 @@ const Login = () => {
                     <p className="text-danger small">{errors.userDetail}</p>
                   )}
                 </div>
+
                 <div className="mb-3">
                   <label className="form-label">Password</label>
-                  <input
-                    type="password"
-                    className="form-control custom-input"
-                    value={password}
-                    onChange={(e) => handleInputChange(e, "password")}
-                  />
+                  <div className="position-relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="form-control custom-input password-input"
+                      value={password}
+                      onChange={(e) => handleInputChange(e, "password")}
+                    />
+                    <span
+                      className="password-toggle"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                  </div>
                   {submitted && errors.password && (
                     <p className="text-danger small">{errors.password}</p>
                   )}
@@ -250,12 +266,19 @@ const Login = () => {
                     </button>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-dark w-100 custom-input">
+
+                <button
+                  type="submit"
+                  className="btn btn-dark w-100 custom-input"
+                >
                   Sign In
                 </button>
               </form>
               <p className="mt-3 text-center">
-                Don’t have an account? <Link to="/SignUp"><u>Sign Up</u></Link>
+                Don’t have an account?{" "}
+                <Link to="/SignUp">
+                  <u>Sign up</u>
+                </Link>
               </p>
             </div>
           )}
