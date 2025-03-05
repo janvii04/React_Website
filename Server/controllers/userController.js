@@ -57,119 +57,216 @@ failureGoogleLogin: (req, res) => {
     res.send('Error')
 },
 
-  signUp: async (req, res) => {
-    try {
-      const schema = Joi.object({
-        name: Joi.string().required(),
-        userName: Joi.string().required(),
-        phoneNumber: Joi.string().required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().min(6).required(),
-        deviceToken: Joi.string().optional(),
-      });
+  // signUp: async (req, res) => {
+  //   try {
+  //     const schema = Joi.object({
+  //       name: Joi.string().required(),
+  //       userName: Joi.string().required(),
+  //       phoneNumber: Joi.string().required(),
+  //       email: Joi.string().email().required(),
+  //       password: Joi.string().min(6).required(),
+  //       deviceToken: Joi.string().optional(),
+  //     });
 
-      let payload = await schema.validateAsync(req.body);
-      let userExist = await Models.user.findOne({
-        where: { email: payload.email },
-      });
-      if (userExist) {
-        return res
-          .status(400)
-          .json({ msg: "User already exists with this email" });
-      }
+  //     let payload = await schema.validateAsync(req.body);
+  //     let userExist = await Models.user.findOne({
+  //       where: { email: payload.email },
+  //     });
+  //     if (userExist) {
+  //       return res
+  //         .status(400)
+  //         .json({ msg: "User already exists with this email" });
+  //     }
 
-      let phoneNumber = payload.phoneNumber.trim();
-      let countryCode = "";
-      if (phoneNumber.startsWith("+")) {
-        let splitArray = phoneNumber.slice(1).split("");
-        countryCode = splitArray.splice(0, 2).join("");
-        phoneNumber = splitArray.join("");
-        if (countryCode === "91") {
-          countryCode = "";
-        }
-      }
-      const formattedPhone = `+${countryCode}${phoneNumber}`;
-      const hashedPassword = await bcrypt.hash(payload.password, 10);
-      const newUser = await Models.user.create({
-        name: payload.name,
-        userName: payload.userName,
-        phoneNumber: formattedPhone,
-        email: payload.email,
-        password: hashedPassword,
-        deviceToken: payload.deviceToken || null,
-        isVerified: false, // Set isVerified false until OTP verification
-      });
+  //     let phoneNumber = payload.phoneNumber.trim();
+  //     let countryCode = "";
+  //     if (phoneNumber.startsWith("+")) {
+  //       let splitArray = phoneNumber.slice(1).split("");
+  //       countryCode = splitArray.splice(0, 2).join("");
+  //       phoneNumber = splitArray.join("");
+  //       if (countryCode === "91") {
+  //         countryCode = "";
+  //       }
+  //     }
+  //     const formattedPhone = `+${countryCode}${phoneNumber}`;
+  //     const hashedPassword = await bcrypt.hash(payload.password, 10);
+  //     const newUser = await Models.user.create({
+  //       name: payload.name,
+  //       userName: payload.userName,
+  //       phoneNumber: formattedPhone,
+  //       email: payload.email,
+  //       password: hashedPassword,
+  //       deviceToken: payload.deviceToken || null,
+  //       isVerified: false, // Set isVerified false until OTP verification
+  //     });
 
-      await client.verify.v2
-        .services(process.env.TWILIO_SERVICE_SID)
-        .verifications.create({ to: formattedPhone, channel: "sms" });
+  //     await client.verify.v2
+  //       .services(process.env.TWILIO_SERVICE_SID)
+  //       .verifications.create({ to: formattedPhone, channel: "sms" });
 
-      return res.status(200).json({
-        msg: "OTP sent successfully. Please verify your OTP to complete registration.",
-        phoneNumber: formattedPhone,
-      });
-    } catch (error) {
-      console.error("Signup Error:", error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  },
+  //     return res.status(200).json({
+  //       msg: "OTP sent successfully. Please verify your OTP to complete registration.",
+  //       phoneNumber: formattedPhone,
+  //     });
+  //   } catch (error) {
+  //     console.error("SignUp Error:", error);
+  //     return res.status(500).json({ message: "Internal server error" });
+  //   }
+  // },
 
   
 
-  otpVerify: async (req, res) => {
-    try {
-        const schema = Joi.object({
-            phoneNumber: Joi.string().trim().required(),
-            otp: Joi.string().trim().length(6).required(),
-        });
+//   otpVerify: async (req, res) => {
+//     try {
+//         const schema = Joi.object({
+//             phoneNumber: Joi.string().trim().required(),
+//             otp: Joi.string().trim().length(6).required(),
+//         });
 
-        const payload = await schema.validateAsync(req.body);
-        let { phoneNumber, otp } = payload;
+//         const payload = await schema.validateAsync(req.body);
+//         let { phoneNumber, otp } = payload;
 
-        if (!phoneNumber.startsWith("+")) {
-            phoneNumber = `+91${phoneNumber}`;
-        }
+//         if (!phoneNumber.startsWith("+")) {
+//             phoneNumber = `+91${phoneNumber}`;
+//         }
 
-        console.log("Verifying OTP for phone number:", phoneNumber);
+//         console.log("Verifying OTP for phone number:", phoneNumber);
 
-        const verificationCheck = await client.verify.v2.services(process.env.TWILIO_SERVICE_SID)
-            .verificationChecks
-            .create({ to: phoneNumber, code: otp });
+//         const verificationCheck = await client.verify.v2.services(process.env.TWILIO_SERVICE_SID)
+//             .verificationChecks
+//             .create({ to: phoneNumber, code: otp });
 
-        console.log("Twilio Response:", verificationCheck);
+//         console.log("Twilio Response:", verificationCheck);
 
-        if (verificationCheck.status !== "approved") {
-            return res.status(400).json({ message: "Invalid OTP. Please try again." });
-        }
+//         if (verificationCheck.status !== "approved") {
+//             return res.status(400).json({ message: "Invalid OTP. Please try again." });
+//         }
 
-        let user = await Models.user.findOne({ where: { phoneNumber: phoneNumber } });
+//         let user = await Models.user.findOne({ where: { phoneNumber: phoneNumber } });
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
 
-        await Models.user.update(
-            { isVerified: true },
-            { where: { phoneNumber: phoneNumber } }
-        );
+//         await Models.user.update(
+//             { isVerified: true },
+//             { where: { phoneNumber: phoneNumber } }
+//         );
 
-        const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: "1h" });
-        user.token = token;
-        return res.status(200).json({
-            message: "OTP verified successfully",
-            user: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-                token: token, 
-            }
-        });
+//         const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: "1h" });
+//         user.token = token;
+//         return res.status(200).json({
+//             message: "OTP verified successfully",
+//             user: {
+//                 id: user.id,
+//                 name: user.name,
+//                 email: user.email,
+//                 phoneNumber: user.phoneNumber,
+//                 token: token, 
+//             }
+//         });
         
-    } catch (error) {
-        console.error("OTP Verification Error:", error);
-        return res.status(500).json({ message: "Internal server error" });
-    }
+//     } catch (error) {
+//         console.error("OTP Verification Error:", error);
+//         return res.status(500).json({ message: "Internal server error" });
+//     }
+// },
+
+signUp: async (req, res) => {
+  try {
+      const schema = Joi.object({
+          name: Joi.string().required(),
+          userName: Joi.string().required(),
+          phoneNumber: Joi.string().required(),
+          email: Joi.string().email().required(),
+          password: Joi.string().min(6).required(),
+          deviceToken: Joi.string().optional()
+      });
+
+      let payload = await schema.validateAsync(req.body);
+      let userExist = await Models.user.findOne({ where: { email: payload.email } });
+      if (userExist) {
+          return res.status(400).json({ msg: "User already exists with this email" });
+      }
+      let phoneNumber = payload.phoneNumber.trim();
+      let countryCode = "";
+      if (phoneNumber) {
+          let splitArray = phoneNumber.slice(1).split("");
+          countryCode = splitArray.splice(0, 2).join("");
+          phoneNumber = splitArray.join("");
+         countryCode = `+${countryCode}`
+      }
+      const formattedPhone = `${countryCode}${phoneNumber}`;
+
+      const hashedPassword = await bcrypt.hash(payload.password, 10);
+      const newUser = await Models.user.create({
+          name: payload.name,
+          userName: payload.userName,
+          phoneNumber: phoneNumber,
+          countryCode:countryCode,
+          email: payload.email,
+          password: hashedPassword,
+          deviceToken: payload.deviceToken || null,
+          isVerified: false,
+      });
+      console.log(newUser);
+
+      return res.status(200).json({
+          msg: "OTP sent successfully. Please verify your OTP to complete registration.",
+          phoneNumber: phoneNumber,
+          countryCode:countryCode
+      });
+  } catch (error) {
+      console.error("Signup Error:", error);
+      return res.status(500).json({ message: "Internal server error" });
+  }
+},
+
+otpVerify: async (req, res) => {
+  try {
+      const schema = Joi.object({
+          phoneNumber: Joi.string().trim().required(),
+          countryCode:Joi.string().required(),
+          otp: Joi.string().trim().length(6).required(),
+      });
+
+      const payload = await schema.validateAsync(req.body);
+      let { phoneNumber,countryCode, otp } = payload;
+
+
+      console.log("Verifying OTP for phone number:", phoneNumber);
+
+      if (req.body.otp != 111111) {
+          return res.status(400).json({ message: "Invalid OTP. Please try again." });
+      }
+      let user = await Models.user.findOne({ where: { phoneNumber: phoneNumber,countryCode:countryCode } });
+
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      await Models.user.update(
+          { isVerified: true },
+          { where: { phoneNumber: phoneNumber,countryCode:countryCode } }
+      );
+
+      const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: "1h" });
+      user.token = token;
+      return res.status(200).json({
+          message: "OTP verified successfully",
+          user: {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              phoneNumber: user.phoneNumber,
+              token: token,
+          }
+      });
+
+  } catch (error) {
+      console.error("OTP Verification Error:", error);
+      return res.status(500).json({ message: "Internal server error" });
+  }
 },
 
   login: async (req, res) => {

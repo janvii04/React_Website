@@ -77,10 +77,10 @@ const Card = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert("Signup Successful! Please Login.");
+        alert("SignUp Successful! Please Login.");
         setIsLogin(true);
       } else {
-        alert(data.message || "Signup Failed!");
+        alert(data.message || "SignUp Failed!");
       }
     } catch (error) {
       console.error("Error:", error);

@@ -26,6 +26,8 @@ const OTPVerification = () => {
 
   const handleSubmit = useCallback(async () => {
     const phoneNumber = JSON.parse(localStorage.getItem("phoneNumber"));
+    const countryCode = JSON.parse(localStorage.getItem("countryCode"));
+
 
     if (!phoneNumber) {
       toast.error("Phone number not found!");
@@ -39,23 +41,34 @@ const OTPVerification = () => {
     }
 
     try {
-      console.log("Sending OTP:", otpCode, "Phone Number:", phoneNumber); // Debugging
+      console.log("Sending OTP:", otpCode, "Phone Number:", phoneNumber);
 
       const response = await fetch("http://localhost:3001/users/otpVerify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ otp: otpCode, phoneNumber }),
+        body: JSON.stringify({ otp: otpCode, phoneNumber ,countryCode}),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("OTP Verified Successfully!");
+
+        // Store user & token in localStorage
         localStorage.setItem("user", JSON.stringify(data.user));
+        if (data.user?.token) {
+          console.log("Token received:", data.user.token);
+
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.user.token);
+                }
+
         setTimeout(() => {
           navigate("/");
         }, 2000);
       } else {
+        console.log("No token received.");
+
         toast.error(data.message || "OTP verification failed.");
       }
     } catch (error) {
