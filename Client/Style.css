@@ -95,6 +95,15 @@ a {
   text-decoration: none;
 }
 /* sign up */
+
+.google-icon {
+  background: linear-gradient( red,yellow, green, blue);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
 .form-container {
   width: 100%;
   max-width: 400px;

@@ -17,19 +17,24 @@ router.post('/forgotPassword', controllers.userController.forgotPassword)
 // router.post('/resendForgotPasswordLink', controllers.userController.resendForgotPasswordLink)
 router.get('/resetPassword', controllers.userController.resetPassword)
 router.post("/changePassword",controllers.userController.changePassword)
-router.get('/loadAuth', controllers.userController.loadAuth)
+router.get('/loadAuth', controllers.userController.loadAuth);
 
+router.get(
+    '/auth/google',
+    passport.authenticate('google', { scope: ['email', 'profile'] })
+);
 
+router.get(
+    '/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: 'http://localhost:5173/failure',
+    }),
+    (req, res) => {
+        res.redirect(`http://localhost:5173/`);
+    }
+);
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }))
-//Auth callback
-router.get('/auth/google/callback', passport.authenticate('google', {
-    successRedirect: '/success',
-    failureRedirect: '/failure'
-}));
-//Success
 router.get('/success', controllers.userController.successGoogleLogin);
-//Failure
-router.get('/failure',controllers.userController.failureGoogleLogin)
+router.get('/failure', controllers.userController.failureGoogleLogin);
 
 module.exports = router;
